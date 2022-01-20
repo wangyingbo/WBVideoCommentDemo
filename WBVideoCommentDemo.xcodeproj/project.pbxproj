@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A49FBFFA2797B0EA0034E7FE /* DemoTableCommentListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FBFF92797B0EA0034E7FE /* DemoTableCommentListVC.m */; };
+		A49FBFFE2797B1CA0034E7FE /* WBVideoTableCommentRender.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FBFFD2797B1CA0034E7FE /* WBVideoTableCommentRender.m */; };
+		A49FC0012797B46A0034E7FE /* WBVideoTableCommentEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FC0002797B46A0034E7FE /* WBVideoTableCommentEngine.m */; };
+		A49FC0042797B48D0034E7FE /* WBVideoTableCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FC0032797B48D0034E7FE /* WBVideoTableCommentCell.m */; };
+		A49FC0072797B4A40034E7FE /* WBVideoTableCommentOjbect.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FC0062797B4A40034E7FE /* WBVideoTableCommentOjbect.m */; };
+		A49FC00B2797F3A00034E7FE /* WBVideoTestCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FC00A2797F3A00034E7FE /* WBVideoTestCommentCell.m */; };
 		A4E0123927968B3C006DE021 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0123827968B3C006DE021 /* AppDelegate.m */; };
 		A4E0123C27968B3C006DE021 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0123B27968B3C006DE021 /* SceneDelegate.m */; };
 		A4E0123F27968B3C006DE021 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0123E27968B3C006DE021 /* ViewController.m */; };
@@ -17,6 +23,14 @@
 		A4E0125427968B3D006DE021 /* WBVideoCommentDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0125327968B3D006DE021 /* WBVideoCommentDemoTests.m */; };
 		A4E0125E27968B3D006DE021 /* WBVideoCommentDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0125D27968B3D006DE021 /* WBVideoCommentDemoUITests.m */; };
 		A4E0126027968B3D006DE021 /* WBVideoCommentDemoUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0125F27968B3D006DE021 /* WBVideoCommentDemoUITestsLaunchTests.m */; };
+		A4E0126F27968BC6006DE021 /* WBVideoCommentRender.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0126E27968BC6006DE021 /* WBVideoCommentRender.m */; };
+		A4E0127227968C34006DE021 /* WBVideoBaseCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0127127968C34006DE021 /* WBVideoBaseCommentView.m */; };
+		A4E0127527968D79006DE021 /* WBVideoCommentEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0127427968D79006DE021 /* WBVideoCommentEngine.m */; };
+		A4E0127827968D8B006DE021 /* WBVideoBaseCommentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0127727968D8B006DE021 /* WBVideoBaseCommentObject.m */; };
+		A4E0127F27969495006DE021 /* WBSVWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0127E27969495006DE021 /* WBSVWeakProxy.m */; };
+		A4E012832796A984006DE021 /* WBVideoTestCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E012822796A984006DE021 /* WBVideoTestCommentView.m */; };
+		A4E012862796CDF0006DE021 /* DemoCustomCommentListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E012852796CDF0006DE021 /* DemoCustomCommentListVC.m */; };
+		A4EC556927990963003EF5A7 /* WBVideoTestData.m in Sources */ = {isa = PBXBuildFile; fileRef = A4EC556827990963003EF5A7 /* WBVideoTestData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +51,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A49FBFF72797AEAB0034E7FE /* VideoCommentListHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoCommentListHeader.h; sourceTree = "<group>"; };
+		A49FBFF82797B0EA0034E7FE /* DemoTableCommentListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoTableCommentListVC.h; sourceTree = "<group>"; };
+		A49FBFF92797B0EA0034E7FE /* DemoTableCommentListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoTableCommentListVC.m; sourceTree = "<group>"; };
+		A49FBFFC2797B1CA0034E7FE /* WBVideoTableCommentRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTableCommentRender.h; sourceTree = "<group>"; };
+		A49FBFFD2797B1CA0034E7FE /* WBVideoTableCommentRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTableCommentRender.m; sourceTree = "<group>"; };
+		A49FBFFF2797B46A0034E7FE /* WBVideoTableCommentEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTableCommentEngine.h; sourceTree = "<group>"; };
+		A49FC0002797B46A0034E7FE /* WBVideoTableCommentEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTableCommentEngine.m; sourceTree = "<group>"; };
+		A49FC0022797B48D0034E7FE /* WBVideoTableCommentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTableCommentCell.h; sourceTree = "<group>"; };
+		A49FC0032797B48D0034E7FE /* WBVideoTableCommentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTableCommentCell.m; sourceTree = "<group>"; };
+		A49FC0052797B4A40034E7FE /* WBVideoTableCommentOjbect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTableCommentOjbect.h; sourceTree = "<group>"; };
+		A49FC0062797B4A40034E7FE /* WBVideoTableCommentOjbect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTableCommentOjbect.m; sourceTree = "<group>"; };
+		A49FC0092797F3A00034E7FE /* WBVideoTestCommentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTestCommentCell.h; sourceTree = "<group>"; };
+		A49FC00A2797F3A00034E7FE /* WBVideoTestCommentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTestCommentCell.m; sourceTree = "<group>"; };
 		A4E0123427968B3C006DE021 /* WBVideoCommentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WBVideoCommentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4E0123727968B3C006DE021 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A4E0123827968B3C006DE021 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -54,6 +81,23 @@
 		A4E0125927968B3D006DE021 /* WBVideoCommentDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WBVideoCommentDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4E0125D27968B3D006DE021 /* WBVideoCommentDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoCommentDemoUITests.m; sourceTree = "<group>"; };
 		A4E0125F27968B3D006DE021 /* WBVideoCommentDemoUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoCommentDemoUITestsLaunchTests.m; sourceTree = "<group>"; };
+		A4E0126D27968BC6006DE021 /* WBVideoCommentRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoCommentRender.h; sourceTree = "<group>"; };
+		A4E0126E27968BC6006DE021 /* WBVideoCommentRender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoCommentRender.m; sourceTree = "<group>"; };
+		A4E0127027968C34006DE021 /* WBVideoBaseCommentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoBaseCommentView.h; sourceTree = "<group>"; };
+		A4E0127127968C34006DE021 /* WBVideoBaseCommentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoBaseCommentView.m; sourceTree = "<group>"; };
+		A4E0127327968D79006DE021 /* WBVideoCommentEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoCommentEngine.h; sourceTree = "<group>"; };
+		A4E0127427968D79006DE021 /* WBVideoCommentEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoCommentEngine.m; sourceTree = "<group>"; };
+		A4E0127627968D8B006DE021 /* WBVideoBaseCommentObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoBaseCommentObject.h; sourceTree = "<group>"; };
+		A4E0127727968D8B006DE021 /* WBVideoBaseCommentObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoBaseCommentObject.m; sourceTree = "<group>"; };
+		A4E0127D27969495006DE021 /* WBSVWeakProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBSVWeakProxy.h; sourceTree = "<group>"; };
+		A4E0127E27969495006DE021 /* WBSVWeakProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBSVWeakProxy.m; sourceTree = "<group>"; };
+		A4E012812796A984006DE021 /* WBVideoTestCommentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTestCommentView.h; sourceTree = "<group>"; };
+		A4E012822796A984006DE021 /* WBVideoTestCommentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTestCommentView.m; sourceTree = "<group>"; };
+		A4E012842796CDF0006DE021 /* DemoCustomCommentListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoCustomCommentListVC.h; sourceTree = "<group>"; };
+		A4E012852796CDF0006DE021 /* DemoCustomCommentListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoCustomCommentListVC.m; sourceTree = "<group>"; };
+		A4EC556727990963003EF5A7 /* WBVideoTestData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTestData.h; sourceTree = "<group>"; };
+		A4EC556827990963003EF5A7 /* WBVideoTestData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTestData.m; sourceTree = "<group>"; };
+		A4EC556A27994103003EF5A7 /* WBVideoTableCommentOjbect+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBVideoTableCommentOjbect+Private.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +125,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A49FBFFB2797B19B0034E7FE /* WBVideoTableComment */ = {
+			isa = PBXGroup;
+			children = (
+				A49FBFFC2797B1CA0034E7FE /* WBVideoTableCommentRender.h */,
+				A49FBFFD2797B1CA0034E7FE /* WBVideoTableCommentRender.m */,
+				A49FBFFF2797B46A0034E7FE /* WBVideoTableCommentEngine.h */,
+				A49FC0002797B46A0034E7FE /* WBVideoTableCommentEngine.m */,
+				A49FC0022797B48D0034E7FE /* WBVideoTableCommentCell.h */,
+				A49FC0032797B48D0034E7FE /* WBVideoTableCommentCell.m */,
+				A49FC0052797B4A40034E7FE /* WBVideoTableCommentOjbect.h */,
+				A49FC0062797B4A40034E7FE /* WBVideoTableCommentOjbect.m */,
+				A4EC556A27994103003EF5A7 /* WBVideoTableCommentOjbect+Private.h */,
+			);
+			path = WBVideoTableComment;
+			sourceTree = "<group>";
+		};
 		A4E0122B27968B3C006DE021 = {
 			isa = PBXGroup;
 			children = (
@@ -104,12 +164,22 @@
 		A4E0123627968B3C006DE021 /* WBVideoCommentDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A49FBFFB2797B19B0034E7FE /* WBVideoTableComment */,
+				A4E0126C27968BA2006DE021 /* WBVideoComment */,
 				A4E0123727968B3C006DE021 /* AppDelegate.h */,
 				A4E0123827968B3C006DE021 /* AppDelegate.m */,
 				A4E0123A27968B3C006DE021 /* SceneDelegate.h */,
 				A4E0123B27968B3C006DE021 /* SceneDelegate.m */,
 				A4E0123D27968B3C006DE021 /* ViewController.h */,
 				A4E0123E27968B3C006DE021 /* ViewController.m */,
+				A49FBFF72797AEAB0034E7FE /* VideoCommentListHeader.h */,
+				A4E012842796CDF0006DE021 /* DemoCustomCommentListVC.h */,
+				A4E012852796CDF0006DE021 /* DemoCustomCommentListVC.m */,
+				A49FBFF82797B0EA0034E7FE /* DemoTableCommentListVC.h */,
+				A49FBFF92797B0EA0034E7FE /* DemoTableCommentListVC.m */,
+				A4E012802796A8F8006DE021 /* TestData */,
+				A4E0127D27969495006DE021 /* WBSVWeakProxy.h */,
+				A4E0127E27969495006DE021 /* WBSVWeakProxy.m */,
 				A4E0124027968B3C006DE021 /* Main.storyboard */,
 				A4E0124327968B3D006DE021 /* Assets.xcassets */,
 				A4E0124527968B3D006DE021 /* LaunchScreen.storyboard */,
@@ -134,6 +204,34 @@
 				A4E0125F27968B3D006DE021 /* WBVideoCommentDemoUITestsLaunchTests.m */,
 			);
 			path = WBVideoCommentDemoUITests;
+			sourceTree = "<group>";
+		};
+		A4E0126C27968BA2006DE021 /* WBVideoComment */ = {
+			isa = PBXGroup;
+			children = (
+				A4E0126D27968BC6006DE021 /* WBVideoCommentRender.h */,
+				A4E0126E27968BC6006DE021 /* WBVideoCommentRender.m */,
+				A4E0127327968D79006DE021 /* WBVideoCommentEngine.h */,
+				A4E0127427968D79006DE021 /* WBVideoCommentEngine.m */,
+				A4E0127027968C34006DE021 /* WBVideoBaseCommentView.h */,
+				A4E0127127968C34006DE021 /* WBVideoBaseCommentView.m */,
+				A4E0127627968D8B006DE021 /* WBVideoBaseCommentObject.h */,
+				A4E0127727968D8B006DE021 /* WBVideoBaseCommentObject.m */,
+			);
+			path = WBVideoComment;
+			sourceTree = "<group>";
+		};
+		A4E012802796A8F8006DE021 /* TestData */ = {
+			isa = PBXGroup;
+			children = (
+				A4E012812796A984006DE021 /* WBVideoTestCommentView.h */,
+				A4E012822796A984006DE021 /* WBVideoTestCommentView.m */,
+				A49FC0092797F3A00034E7FE /* WBVideoTestCommentCell.h */,
+				A49FC00A2797F3A00034E7FE /* WBVideoTestCommentCell.m */,
+				A4EC556727990963003EF5A7 /* WBVideoTestData.h */,
+				A4EC556827990963003EF5A7 /* WBVideoTestData.m */,
+			);
+			path = TestData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,10 +364,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4E012862796CDF0006DE021 /* DemoCustomCommentListVC.m in Sources */,
+				A49FC0072797B4A40034E7FE /* WBVideoTableCommentOjbect.m in Sources */,
+				A49FC0042797B48D0034E7FE /* WBVideoTableCommentCell.m in Sources */,
+				A4E0127227968C34006DE021 /* WBVideoBaseCommentView.m in Sources */,
+				A4E0126F27968BC6006DE021 /* WBVideoCommentRender.m in Sources */,
+				A49FC00B2797F3A00034E7FE /* WBVideoTestCommentCell.m in Sources */,
 				A4E0123F27968B3C006DE021 /* ViewController.m in Sources */,
+				A49FBFFA2797B0EA0034E7FE /* DemoTableCommentListVC.m in Sources */,
+				A4E012832796A984006DE021 /* WBVideoTestCommentView.m in Sources */,
+				A4E0127827968D8B006DE021 /* WBVideoBaseCommentObject.m in Sources */,
+				A4EC556927990963003EF5A7 /* WBVideoTestData.m in Sources */,
+				A49FC0012797B46A0034E7FE /* WBVideoTableCommentEngine.m in Sources */,
+				A4E0127F27969495006DE021 /* WBSVWeakProxy.m in Sources */,
 				A4E0123927968B3C006DE021 /* AppDelegate.m in Sources */,
+				A4E0127527968D79006DE021 /* WBVideoCommentEngine.m in Sources */,
 				A4E0124A27968B3D006DE021 /* main.m in Sources */,
 				A4E0123C27968B3C006DE021 /* SceneDelegate.m in Sources */,
+				A49FBFFE2797B1CA0034E7FE /* WBVideoTableCommentRender.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
