@@ -48,8 +48,8 @@
 }
 
 - (NSArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)_handleVisibleObjects {
-    CGFloat visiableObjectHeight = 0.f;
-    NSMutableArray *visiableObjectsMutArr = [NSMutableArray array];
+    CGFloat visibleObjectHeight = 0.f;
+    NSMutableArray *visibleObjectsMutArr = [NSMutableArray array];
     for (WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *object in self.totalObjectsArray) {
         if (![object isKindOfClass:[WBVideoTableCommentOjbect class]]) {
             continue;
@@ -62,24 +62,24 @@
         if ([cellClass respondsToSelector:@selector(heightForCellWithObject:)]) {
             perObjectHeight = [cellClass heightForCellWithObject:object];
         }
-        [visiableObjectsMutArr addObject:object];
-        visiableObjectHeight += perObjectHeight;
+        [visibleObjectsMutArr addObject:object];
+        visibleObjectHeight += perObjectHeight;
         self.wanderObject = object;
         
-        if (visiableObjectHeight > self.tableView.frame.size.height) {
+        if (visibleObjectHeight > self.tableView.frame.size.height) {
             break;
         }
     }
     
-    [self _handleVisibleRectWithLastObjectBottom:visiableObjectHeight updateContentInsetBlock:nil updateContentOffsetBlock:nil];
-    return [visiableObjectsMutArr copy];
+    [self _handleVisibleRectWithLastObjectBottom:visibleObjectHeight updateContentInsetBlock:nil updateContentOffsetBlock:nil];
+    return [visibleObjectsMutArr copy];
 }
 
 - (void)_handleVisibleRectWithLastObjectBottom:(CGFloat)bottom updateContentInsetBlock:(UpdateValueBlock)updateContentInsetBlock updateContentOffsetBlock:(UpdateValueBlock)updateContentOffsetBlock {
     CGFloat topInset = self.contentInset.top;
     CGFloat bottomInset = self.contentInset.bottom;
-    CGFloat actualVisiableHeight = self.tableView.frame.size.height - topInset - bottomInset;
-    CGFloat difference = bottom - actualVisiableHeight;
+    CGFloat actualVisibleHeight = self.tableView.frame.size.height - topInset - bottomInset;
+    CGFloat difference = bottom - actualVisibleHeight;
     CGFloat topInsetDifference = self.tableView.contentInset.top - topInset;
     CGFloat fix = difference - topInsetDifference;
     

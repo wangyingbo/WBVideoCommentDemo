@@ -38,7 +38,7 @@
 
 @interface WBVideoCommentEngine ()
 @property (nonatomic, strong) NSMutableArray<WBVideoBaseCommentObject *> *totalDatas;
-@property (nonatomic, strong) NSMutableArray<WBVideoComment *> *visiableComments;
+@property (nonatomic, strong) NSMutableArray<WBVideoComment *> *visibleComments;
 @property (nonatomic, weak) WBVideoBaseCommentObject *tail;//游走指针，指向最后一个添加的数据
 
 @end
@@ -52,11 +52,11 @@
     return _totalDatas;
 }
 
-- (NSMutableArray<WBVideoComment *> *)visiableComments {
-    if (!_visiableComments) {
-        _visiableComments = [NSMutableArray array];
+- (NSMutableArray<WBVideoComment *> *)visibleComments {
+    if (!_visibleComments) {
+        _visibleComments = [NSMutableArray array];
     }
-    return _visiableComments;
+    return _visibleComments;
 }
 
 - (NSMutableDictionary<NSString *,NSArray<WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *> *> *)reuseViewsDict {
@@ -75,7 +75,7 @@
 }
 
 - (void)startPlay {
-    [self _startGetVisiableComments];
+    [self _startGetVisibleComments];
 }
 
 #pragma mark - private
@@ -87,11 +87,11 @@
         self.tail = nil;
     }
 }
-- (void)_startGetVisiableComments {
-    if (self.visiableComments.count) {
-        [self.visiableComments removeAllObjects];
+- (void)_startGetVisibleComments {
+    if (self.visibleComments.count) {
+        [self.visibleComments removeAllObjects];
     }
-    CGFloat visiableViewsHeight = 0.f;
+    CGFloat visibleViewsHeight = 0.f;
     WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *lastCommentView = nil;
     for (WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *object in self.totalDatas) {
         if (![object isKindOfClass:[WBVideoBaseCommentObject class]]) {
@@ -107,18 +107,18 @@
         commentView.frame = CGRectMake(0, CGRectGetMaxY(lastCommentView.frame), object.commonInfo.maxWidth, perCommentHeight);
         [self.render addSubview:commentView];
         lastCommentView = commentView;
-        visiableViewsHeight += perCommentHeight;
+        visibleViewsHeight += perCommentHeight;
         self.tail = object;
         
         WBVideoComment *comment = [[WBVideoComment alloc] init];
         comment.commentView = commentView;
         comment.commentModel = object;
-        [self.visiableComments addObject:comment];
+        [self.visibleComments addObject:comment];
         
         CGFloat restSpace = CGRectGetHeight(self.render.frame) - CGRectGetMaxY(commentView.frame);
-        [self _visiableViewMove:restSpace duration:0 completion:nil];
+        [self _visibleViewMove:restSpace duration:0 completion:nil];
         
-        if (visiableViewsHeight > self.render.frame.size.height) {
+        if (visibleViewsHeight > self.render.frame.size.height) {
             return;
         }
     }
@@ -188,16 +188,16 @@
     WBVideoComment *comment = [[WBVideoComment alloc] init];
     comment.commentView = commentView;
     comment.commentModel = nextObject;
-    [self.visiableComments addObject:comment];
-    [self _visiableViewMove:-perCommentHeight duration:1.f completion:^{
-        [self _filterVisiableViews];
+    [self.visibleComments addObject:comment];
+    [self _visibleViewMove:-perCommentHeight duration:1.f completion:^{
+        [self _filterVisibleViews];
     }];
     self.tail = nextObject;
 }
 
-- (void)_visiableViewMove:(CGFloat)space duration:(NSTimeInterval)duration completion:(void(^)(void))completion {
-    for (NSInteger i = 0;i < self.visiableComments.count;i++) {
-        WBVideoComment *comment = [self.visiableComments objectAtIndex:i];
+- (void)_visibleViewMove:(CGFloat)space duration:(NSTimeInterval)duration completion:(void(^)(void))completion {
+    for (NSInteger i = 0;i < self.visibleComments.count;i++) {
+        WBVideoComment *comment = [self.visibleComments objectAtIndex:i];
         if (![comment isKindOfClass:[WBVideoComment class]]) {
             continue;
         }
@@ -207,16 +207,16 @@
             comment.commentView.frame = frame;
         } completion:^(BOOL finished) {
             comment.suspend = (CGRectGetMaxY(comment.commentView.frame) < 0);
-            if (i+1 == self.visiableComments.count) {
+            if (i+1 == self.visibleComments.count) {
                 !completion?:completion();
             }
         }];
     }
 }
 
-- (void)_filterVisiableViews {
+- (void)_filterVisibleViews {
     NSMutableArray *mutArray = [NSMutableArray array];
-    for (WBVideoComment *comment in self.visiableComments) {
+    for (WBVideoComment *comment in self.visibleComments) {
         if (![comment isKindOfClass:[WBVideoComment class]]) {
             continue;
         }
@@ -245,12 +245,12 @@
             [self.reuseViewsDict setObject:mutReuseArr forKey:identifier];
         }
     }
-    self.visiableComments = mutArray;
+    self.visibleComments = mutArray;
 }
 
 #pragma mark - WBVideoCommentEngineProtocol
 - (NSArray<WBVideoComment *> *)getVisibleComments {
-    return [self.visiableComments copy];
+    return [self.visibleComments copy];
 }
 
 - (void)showNextComment {
