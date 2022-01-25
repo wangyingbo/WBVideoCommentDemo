@@ -12,6 +12,9 @@
 
 
 @interface ViewController ()
+@property (nonatomic, strong) UIControl *transView;
+@property (nonatomic, assign) BOOL isTransAnimationed;
+
 @end
 
 @implementation ViewController
@@ -21,6 +24,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self initUI];
+    
+    [self initTransformView];
 }
 
 - (void)initUI {
@@ -43,6 +48,28 @@
     [self.view addSubview:tableCommentListButton];
 }
 
+- (void)initTransformView {
+    UIControl *transView = [[UIControl alloc] initWithFrame:[self getTransViewFrame]];
+    transView.backgroundColor = [UIColor redColor];
+    [self.view addSubview:transView];
+    [transView addTarget:self action:@selector(transAction) forControlEvents:UIControlEventTouchUpInside];
+    self.transView = transView;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:transView.bounds];
+    label.textColor = [UIColor greenColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:18.f];
+    label.text = @"视频榜单互动需求";
+    [transView addSubview:label];
+    
+}
+
+- (CGRect)getTransViewFrame {
+    CGFloat trans_w = 200.f;
+    CGFloat trans_h = 100.f;
+    return CGRectMake(FULL_SCREEN_WIDTH/2 - trans_w/2, FULL_SCREEN_HEIGHT - trans_h - 50.f, trans_w, trans_h);
+}
+
 #pragma mark - actions
 - (void)customCommentListAction {
     DemoCustomCommentListVC *demoCustomCommentListVC = [[DemoCustomCommentListVC alloc] init];
@@ -54,6 +81,54 @@
     DemoTableCommentListVC *demoTableCommentListVC = [[DemoTableCommentListVC alloc] init];
     demoTableCommentListVC.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:demoTableCommentListVC animated:YES completion:nil];
+}
+
+- (void)transAction {
+    
+    CGRect originFrame = [self getTransViewFrame];
+    CGFloat scale = .7f;
+    
+    if (CGAffineTransformIsIdentity(self.transView.transform)) {
+        [UIView animateWithDuration:2.f animations:^{
+            CGFloat tx = originFrame.size.width/2 - (originFrame.size.width*scale)/2;
+            CGFloat ty = originFrame.size.height/2 - (originFrame.size.height*scale)/2;
+            
+//            self.transView.transform = CGAffineTransformMake(scale, 0, 0, scale, -tx, ty);
+            
+            CGAffineTransform transform = CGAffineTransformConcat(CGAffineTransformMakeScale(scale, scale), CGAffineTransformMakeTranslation(-tx, ty));
+            self.transView.transform = transform;
+            
+            self.transView.alpha = .2f;
+        } completion:^(BOOL finished) {
+            NSLog(@"%@",NSStringFromCGRect(self.transView.frame));
+        }];
+    }else {
+        [UIView animateWithDuration:2.f animations:^{
+            self.transView.transform = CGAffineTransformIdentity;
+            self.transView.alpha = 1.f;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    
+    
+    return;
+    if (self.isTransAnimationed) {
+        [UIView animateWithDuration:2.f animations:^{
+            self.transView.frame = originFrame;
+        } completion:^(BOOL finished) {
+            self.isTransAnimationed = NO;
+        }];
+    }else {
+        [UIView animateWithDuration:2.f animations:^{
+            CGRect newFrame = originFrame;
+            newFrame.size.width = 100.f;
+            newFrame.size.height = 100.f;
+            self.transView.frame = newFrame;
+        } completion:^(BOOL finished) {
+            self.isTransAnimationed = YES;
+        }];
+    }
 }
 
 @end
