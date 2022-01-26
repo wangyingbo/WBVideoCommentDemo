@@ -16,6 +16,7 @@
 @end
 
 @implementation WBVideoTableCommentEngine
+@synthesize scrollFromFirstObject = _scrollFromFirstObject;
 
 #pragma mark - getter
 - (NSMutableArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)totalObjectsArray {
@@ -50,6 +51,17 @@
 - (NSArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)_handleVisibleObjects {
     CGFloat visibleObjectHeight = 0.f;
     NSMutableArray *visibleObjectsMutArr = [NSMutableArray array];
+        
+    if ([self respondsToSelector:@selector(scrollFromFirstObject)]) {
+        if (self.scrollFromFirstObject) {
+            UIEdgeInsets inset = self.contentInset;
+            inset.top = CGRectGetHeight(self.tableView.frame);
+            self.tableView.contentInset = inset;
+            [self _handleVisibleRectWithLastObjectBottom:CGRectGetMaxY(self.tableView.frame) updateContentInsetBlock:nil updateContentOffsetBlock:nil];
+            return [visibleObjectsMutArr copy];
+        }
+    }
+    
     for (WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *object in self.totalObjectsArray) {
         if (![object isKindOfClass:[WBVideoTableCommentOjbect class]]) {
             continue;
@@ -131,6 +143,7 @@
         return nil;
     }
     if (!_wanderObject) {
+        self.wanderObject = [self.totalObjectsArray firstObject];
         return [self.totalObjectsArray firstObject];
     }
     WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *nextObject = nil;
@@ -158,7 +171,7 @@
     return [self _getNextObject];
 }
 
-- (void)nextObjectToRect:(CGRect)rect duration:(NSTimeInterval)duration {
+- (void)adjustNextObjectRect:(CGRect)rect duration:(NSTimeInterval)duration {
     [self _handleVisibleRectWithLastObjectBottom:CGRectGetMaxY(rect) updateContentInsetBlock:^(CGFloat value) {
         [UIView animateWithDuration:duration animations:^{
             UIEdgeInsets inset = self.tableView.contentInset;
@@ -166,9 +179,14 @@
             self.tableView.contentInset = inset;
         }];
     } updateContentOffsetBlock:^(CGFloat value) {
+        /**
+         解决在UIView动画中setContentOffset导致的顶部的cell消失问题，详细问题描述见stackoverflow:
+         https://stackoverflow.com/questions/4404745/change-the-speed-of-setcontentoffsetanimated
+         */
         [UIView animateWithDuration:duration animations:^{
             CGPoint originOffset = self.tableView.contentOffset;
-            [self.tableView setContentOffset:CGPointMake(originOffset.x, (originOffset.y+value))];
+            [self.tableView setContentOffset:CGPointMake(originOffset.x, (originOffset.y+value)) animated:NO];
+            [self.tableView layoutIfNeeded];
         }];
     }];
 }

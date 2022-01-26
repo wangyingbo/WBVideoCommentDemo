@@ -1,5 +1,5 @@
 //
-//  WBVideoTableCommentModel.m
+//  WBVideoTableCommentOjbect.m
 //  WBVideoCommentDemo
 //
 //  Created by yingbo5 on 2022/1/19.

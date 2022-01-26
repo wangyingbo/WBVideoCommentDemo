@@ -51,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A416FFD827A12572003CDD19 /* WBVideoBaseCommentObject+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBVideoBaseCommentObject+Private.h"; sourceTree = "<group>"; };
+		A416FFDC27A1432D003CDD19 /* WBVideoCommentRenderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoCommentRenderProtocol.h; sourceTree = "<group>"; };
 		A49FBFF72797AEAB0034E7FE /* VideoCommentListHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoCommentListHeader.h; sourceTree = "<group>"; };
 		A49FBFF82797B0EA0034E7FE /* DemoTableCommentListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoTableCommentListVC.h; sourceTree = "<group>"; };
 		A49FBFF92797B0EA0034E7FE /* DemoTableCommentListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoTableCommentListVC.m; sourceTree = "<group>"; };
@@ -125,6 +127,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A416FFDB27A142FA003CDD19 /* WBVideoCommentRender */ = {
+			isa = PBXGroup;
+			children = (
+				A416FFDC27A1432D003CDD19 /* WBVideoCommentRenderProtocol.h */,
+				A49FBFFB2797B19B0034E7FE /* WBVideoTableComment */,
+				A4E0126C27968BA2006DE021 /* WBVideoComment */,
+			);
+			path = WBVideoCommentRender;
+			sourceTree = "<group>";
+		};
 		A49FBFFB2797B19B0034E7FE /* WBVideoTableComment */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,8 +176,7 @@
 		A4E0123627968B3C006DE021 /* WBVideoCommentDemo */ = {
 			isa = PBXGroup;
 			children = (
-				A49FBFFB2797B19B0034E7FE /* WBVideoTableComment */,
-				A4E0126C27968BA2006DE021 /* WBVideoComment */,
+				A416FFDB27A142FA003CDD19 /* WBVideoCommentRender */,
 				A4E0123727968B3C006DE021 /* AppDelegate.h */,
 				A4E0123827968B3C006DE021 /* AppDelegate.m */,
 				A4E0123A27968B3C006DE021 /* SceneDelegate.h */,
@@ -217,6 +228,7 @@
 				A4E0127127968C34006DE021 /* WBVideoBaseCommentView.m */,
 				A4E0127627968D8B006DE021 /* WBVideoBaseCommentObject.h */,
 				A4E0127727968D8B006DE021 /* WBVideoBaseCommentObject.m */,
+				A416FFD827A12572003CDD19 /* WBVideoBaseCommentObject+Private.h */,
 			);
 			path = WBVideoComment;
 			sourceTree = "<group>";

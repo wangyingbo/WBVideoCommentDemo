@@ -51,22 +51,36 @@
     commentRender.backgroundColor = [UIColor colorWithWhite:0 alpha:.2];
     commentRender.delegate = self;
     commentRender.clipsToBounds = NO;
+    if ([commentRender respondsToSelector:@selector(setScrollFromFirstObject:)]) {
+        [commentRender setScrollFromFirstObject:YES];
+    }
+    if ([commentRender respondsToSelector:@selector(setTimeInterval:)]) {
+        [commentRender setTimeInterval:1.5f];
+    }
+    if ([commentRender respondsToSelector:@selector(setScrollAnimationDuration:)]) {
+        [commentRender setScrollAnimationDuration:1.f];
+    }
     [self.view addSubview:commentRender];
     _render = commentRender;
 }
 
 - (void)updateRender {
-    [self.render updateWithDatas:[self getOtherCommentModels]];
-    [self.render startPlay];
+    if ([self.render respondsToSelector:@selector(updateWithDatas:)]) {
+        [self.render updateWithDatas:[self getOtherObjects]];
+    }
+    if ([self.render respondsToSelector:@selector(startPlay)]) {
+        [self.render startPlay];
+    }
 }
 
 #pragma mark - DATA
-- (NSArray<WBVideoBaseCommentObject *> *)getTestCommentModels {
+- (NSArray<WBVideoBaseCommentObject *> *)getTestObjects {
     NSMutableArray *mutArray = [NSMutableArray array];
     
     for (NSInteger i = 0; i < 30; i++) {
         //组装cell object
         WBVideoBaseCommentObject *commentObject = [[WBVideoBaseCommentObject alloc] init];
+        commentObject.cellClass = [WBVideoTestCommentView class];
         commentObject.commonInfo.maxWidth = self.render.frame.size.width;
         //业务数据
         WBVideoTestData *data = [[WBVideoTestData alloc]init];
@@ -91,11 +105,12 @@
     return mutArray.copy;
 }
 
-- (NSArray<WBVideoBaseCommentObject *> *)getOtherCommentModels {
+- (NSArray<WBVideoBaseCommentObject *> *)getOtherObjects {
     NSMutableArray *mutArray = [NSMutableArray array];
     WBVideoBaseCommentObject *(^createOjbect)(NSString *) = ^WBVideoBaseCommentObject *(NSString *content) {
         //组装cell object
         WBVideoBaseCommentObject *object = [[WBVideoBaseCommentObject alloc] init];
+        object.cellClass = [WBVideoTestCommentView class];
         object.commonInfo.maxWidth = self.render.frame.size.width;
         //业务数据
         WBVideoTestData *data = [[WBVideoTestData alloc] init];
@@ -119,12 +134,12 @@
 }
 
 #pragma mark - WBVideoCommentRenderDelegate
-- (__kindof WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)render:(WBVideoCommentRender *)render data:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)data {
-    WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *commentView = [render dequeueReusableCellWithIdentifier:NSStringFromClass(WBVideoTestCommentView.class)];
-    if (!commentView) {
-        commentView = [[WBVideoTestCommentView alloc] init];
-    }
-    return commentView;
-}
+//- (__kindof WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)render:(WBVideoCommentRender *)render data:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)data {
+//    WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *commentView = [render dequeueReusableCellWithIdentifier:NSStringFromClass(WBVideoTestCommentView.class)];
+//    if (!commentView) {
+//        commentView = [[WBVideoTestCommentView alloc] init];
+//    }
+//    return commentView;
+//}
 
 @end

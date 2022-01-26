@@ -36,7 +36,7 @@
 }
 
 - (void)layoutSubviews {
-    CGFloat commentH = [self _getCommentsHeightWithObject:self.object];
+    CGFloat commentH = [[self class] _getCommentsHeightWithObject:self.object];
     self.commentLabel.frame = CGRectMake(0, 0, self.object.commonInfo.maxWidth, commentH);
 }
 
@@ -49,7 +49,7 @@
     
 }
 
-- (CGFloat)heightForViewWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentViewProtocol> *)object {
++ (CGFloat)heightForViewWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentViewProtocol> *)object {
     return [self _getCommentsHeightWithObject:object];
 }
 
@@ -62,7 +62,7 @@
     self.commentLabel.textColor = [UIColor redColor];
 }
 
-- (CGFloat)_getCommentsHeightWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentViewProtocol> *)object {
++ (CGFloat)_getCommentsHeightWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentViewProtocol> *)object {
     if (!object) {
         return 0.f;
     }

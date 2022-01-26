@@ -84,12 +84,13 @@
 }
 
 - (void)transAction {
+    CGFloat animationDuration = 1.f;
     
     CGRect originFrame = [self getTransViewFrame];
     CGFloat scale = .7f;
     
     if (CGAffineTransformIsIdentity(self.transView.transform)) {
-        [UIView animateWithDuration:2.f animations:^{
+        [UIView animateWithDuration:animationDuration animations:^{
             CGFloat tx = originFrame.size.width/2 - (originFrame.size.width*scale)/2;
             CGFloat ty = originFrame.size.height/2 - (originFrame.size.height*scale)/2;
             
@@ -103,7 +104,7 @@
             NSLog(@"%@",NSStringFromCGRect(self.transView.frame));
         }];
     }else {
-        [UIView animateWithDuration:2.f animations:^{
+        [UIView animateWithDuration:animationDuration animations:^{
             self.transView.transform = CGAffineTransformIdentity;
             self.transView.alpha = 1.f;
         } completion:^(BOOL finished) {
@@ -114,13 +115,13 @@
     
     return;
     if (self.isTransAnimationed) {
-        [UIView animateWithDuration:2.f animations:^{
+        [UIView animateWithDuration:animationDuration animations:^{
             self.transView.frame = originFrame;
         } completion:^(BOOL finished) {
             self.isTransAnimationed = NO;
         }];
     }else {
-        [UIView animateWithDuration:2.f animations:^{
+        [UIView animateWithDuration:animationDuration animations:^{
             CGRect newFrame = originFrame;
             newFrame.size.width = 100.f;
             newFrame.size.height = 100.f;

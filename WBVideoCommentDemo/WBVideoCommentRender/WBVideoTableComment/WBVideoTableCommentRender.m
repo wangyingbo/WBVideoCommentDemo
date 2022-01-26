@@ -19,6 +19,9 @@
 @end
 
 @implementation WBVideoTableCommentRender
+@synthesize scrollFromFirstObject = _scrollFromFirstObject;
+@synthesize timeInterval = _timeInterval;
+@synthesize scrollAnimationDuration = _scrollAnimationDuration;
 
 #pragma mark - override
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -29,7 +32,7 @@
 }
 
 - (void)dealloc {
-     [self.timer invalidate];
+    [self.timer invalidate];
     NSLog(@"<%@:%p> dealloc, congratulations!!!",NSStringFromClass(self.class),self);
 }
 
@@ -43,7 +46,11 @@
     
     if (self.timer) { [self _stopTimer]; }
     
-    self.timer = [NSTimer timerWithTimeInterval:2.0 target:[WBSVWeakProxy proxyWithTarget:self] selector:@selector(playTimerRun) userInfo:nil repeats:YES];
+    NSTimeInterval interval = 1.f;
+    if ([self respondsToSelector:@selector(timeInterval)]) {
+        interval = self.timeInterval;
+    }
+    self.timer = [NSTimer timerWithTimeInterval:interval target:[WBSVWeakProxy proxyWithTarget:self] selector:@selector(playTimerRun) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
@@ -79,6 +86,9 @@
         if ([_engine respondsToSelector:@selector(setTableView:)]) {
             _engine.tableView = self.tableView;
         }
+        if ([_engine respondsToSelector:@selector(setScrollFromFirstObject:)] && [self respondsToSelector:@selector(scrollFromFirstObject)]) {
+            _engine.scrollFromFirstObject = self.scrollFromFirstObject;
+        }
     }
     return _engine;
 }
@@ -87,14 +97,11 @@
 - (void)initUI {
     
     [self addSubview:self.tableView];
-    [self registerCellClass];
+    [self _registerCellClass];
     
 }
 
-- (void)registerCellClass {
-    if ([WBVideoTableCommentCell respondsToSelector:@selector(reuseIdentifier)]) {
-        [_tableView registerClass:[WBVideoTableCommentCell class] forCellReuseIdentifier:[WBVideoTableCommentCell reuseIdentifier]];
-    }
+- (void)_registerCellClass {
     if (!self.registerTableCellClassBlock) {
         return;
     }
@@ -122,6 +129,10 @@
 - (void)startPlay {
     [self _startInitialVisibleComments];
     [self _startTimer];
+    
+    if (self.scrollFromFirstObject) {
+        [self playTimerRun];
+    }
 }
 
 #pragma mark - aoto play
@@ -145,26 +156,24 @@
     if (!nextObject) {
         return;
     }
-    NSMutableArray *mutDataArr = [self.dataArray mutableCopy];
-    if (![mutDataArr isKindOfClass:[NSMutableArray class]]) {
-        return;
-    }
-    NSInteger newIndex = self.dataArray.count ? self.dataArray.count : 0;
-    [mutDataArr addObject:nextObject];
-    self.dataArray = [mutDataArr copy];
     
+    NSInteger newIndex = self.dataArray.count ? self.dataArray.count : 0;
     //new indexPath
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:newIndex inSection:0];
     
-    //插入cell更新
-//    NSMutableArray *mutIndexpaths = [NSMutableArray array];
-//    [mutIndexpaths addObject:newIndexPath];
-//    [self.tableView beginUpdates];
-//    [self.tableView insertRowsAtIndexPaths:[mutIndexpaths copy] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    [self.tableView endUpdates];
+    //insert data
+    void(^insertDataBlock)(WBVideoTableCommentOjbect *) = ^void(WBVideoTableCommentOjbect *object) {
+        NSMutableArray *mutDataArr = [self.dataArray mutableCopy];
+        if (![mutDataArr isKindOfClass:[NSMutableArray class]]) {
+            return;
+        }
+        [mutDataArr addObject:object];
+        self.dataArray = [mutDataArr copy];
+    };
     
     //调用scrollToRowAtIndexPath:自动滚到下一个
     if (newIndexPath.row < self.dataArray.count && !self.scrollByCalculated) {
+        insertDataBlock(nextObject);
         //直接刷新reloadData
         [self.tableView reloadData];
         [self.tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
@@ -172,16 +181,27 @@
     }
     
     //处理手动计算滚动逻辑
-    [self.tableView performBatchUpdates:^{
+    if (!self.tableView.superview) { return; }
+    if (@available(iOS 11.0, *)) {
+        [self.tableView performBatchUpdates:^{
+            insertDataBlock(nextObject);
+            //插入cell更新
+            NSMutableArray *mutIndexpaths = [NSMutableArray array];
+            [mutIndexpaths addObject:newIndexPath];
+            [self.tableView insertRowsAtIndexPaths:[mutIndexpaths copy] withRowAnimation:UITableViewRowAnimationNone];
+        } completion:^(BOOL finished) {
+            [self _calculateNextObject:nextObject];
+        }];
+    }else {
+        insertDataBlock(nextObject);
         //插入cell更新
         NSMutableArray *mutIndexpaths = [NSMutableArray array];
         [mutIndexpaths addObject:newIndexPath];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:[mutIndexpaths copy] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView endUpdates];
-    } completion:^(BOOL finished) {
         [self _calculateNextObject:nextObject];
-    }];
+    }
     
 }
 
@@ -191,14 +211,14 @@
     if (!lastVisibleCell) {
         lastVisibleCell = [self _currentLastVisibleCell];
     }
-    else if (!lastVisibleCell && self.dataArray.count >= 2) {
+    if (!lastVisibleCell && self.dataArray.count >= 2) {
         NSInteger lastIndex = (self.dataArray.count - 2);
         NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:lastIndex inSection:0];
         lastVisibleCell = [self.tableView cellForRowAtIndexPath:lastIndexPath];
     }
-    else if (!lastVisibleCell && self.tableView.visibleCells.count >= 2) {
+    if (!lastVisibleCell && self.tableView.visibleCells.count >= 2) {
         NSArray *visibleCells = self.tableView.visibleCells;
-        for (NSInteger i = visibleCells.count - 2; i >= 0; i--) {//倒序遍历，找出没添加新cell前的最后一个显示的cell
+        for (NSInteger i = visibleCells.count - 2; i >= 0; i--) {//倒序遍历，找出新cell前面的显示的cell
             WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *tempCell = nil;
             if (i<0) {  break; }
             tempCell = [visibleCells objectAtIndex:i];
@@ -214,7 +234,7 @@
     if (lastVisibleCell) {
         lastVisibleRect = [self.tableView convertRect:lastVisibleCell.frame toView:self];
     }
-    NSLog(@"last cell:%@, last object rect:%@ maxY:%@",lastVisibleCell,NSStringFromCGRect(lastVisibleRect),[NSNumber numberWithFloat:CGRectGetMaxY(lastVisibleRect)]);
+    //NSLog(@"last cell:%@, last object rect:%@ maxY:%@",lastVisibleCell,NSStringFromCGRect(lastVisibleRect),[NSNumber numberWithFloat:CGRectGetMaxY(lastVisibleRect)]);
     
     //算出即将自动滚出的cell相对render的位置
     CGFloat newCellHeight = 0.f;
@@ -223,11 +243,17 @@
         newCellHeight = [cellClass heightForCellWithObject:nextObject];
     }
     CGRect newCellVisibleRect = CGRectZero;
-    if (newCellHeight > 1e-4) {
+    if (lastVisibleCell) {
         newCellVisibleRect = CGRectMake(CGRectGetMinX(lastVisibleRect), CGRectGetMaxY(lastVisibleRect), CGRectGetWidth(lastVisibleRect), newCellHeight);
+    } else {
+        newCellVisibleRect = CGRectMake(CGRectGetMinX(self.tableView.frame), CGRectGetHeight(self.tableView.frame), CGRectGetWidth(self.tableView.frame) - self.engine.contentInset.bottom, newCellHeight);
     }
-    if ([self.engine respondsToSelector:@selector(nextObjectToRect:duration:)]) {
-        [self.engine nextObjectToRect:newCellVisibleRect duration:.2f];
+    if ([self.engine respondsToSelector:@selector(adjustNextObjectRect:duration:)]) {
+        NSTimeInterval duration = .5f;
+        if ([self respondsToSelector:@selector(scrollAnimationDuration)]) {
+            duration = self.scrollAnimationDuration;
+        }
+        [self.engine adjustNextObjectRect:newCellVisibleRect duration:duration];
     }
     
     //滚完以后回调
@@ -298,6 +324,9 @@
     if (!cell) {
         [tableView registerClass:cellClass forCellReuseIdentifier:identifier];
         cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    }
+    if (!cell) {
+        cell = [[[cellClass class] alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     if (cell && [cell respondsToSelector:@selector(updateCellWithObject:)]) {
         [cell updateCellWithObject:object];

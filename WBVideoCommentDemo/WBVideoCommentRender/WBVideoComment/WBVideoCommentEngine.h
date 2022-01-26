@@ -19,21 +19,23 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL suspend;
 
 @property (nonatomic, strong, readonly) __kindof WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *commentView;
-@property (nonatomic, strong, readonly) __kindof WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *commentModel;
+@property (nonatomic, strong, readonly) __kindof WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *object;
 
-- (CGFloat)commentHeight;
-- (void)updateData;
 @end
 
 
 
 @protocol WBVideoCommentEngineDelegate <NSObject>
-- (__kindof WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)viewWithData:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)commentModel;
+- (__kindof WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)viewWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)object;
 @end
 
 @protocol WBVideoCommentEngineProtocol <NSObject>
 - (NSArray<WBVideoComment *> *)getVisibleComments;
 - (void)showNextComment;
+/**首次加载时，是否从第一个开始滚*/
+@property (nonatomic, assign) BOOL scrollFromFirstObject;
+/**the scroll animation duration when scroll a item*/
+@property (nonatomic, assign) NSTimeInterval scrollAnimationDuration;
 @end
 
 @interface WBVideoCommentEngine : NSObject<WBVideoCommentEngineProtocol>

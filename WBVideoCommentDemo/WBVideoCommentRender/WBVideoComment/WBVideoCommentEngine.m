@@ -9,30 +9,13 @@
 #import "WBVideoCommentRender.h"
 #import "WBVideoBaseCommentView.h"
 #import "WBVideoBaseCommentObject.h"
+#import "WBVideoBaseCommentObject+Private.h"
 
 @interface WBVideoComment ()
 @property (nonatomic, strong) __kindof WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *commentView;
-@property (nonatomic, strong) __kindof WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *commentModel;
+@property (nonatomic, strong) __kindof WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *object;
 @end
 @implementation WBVideoComment
-- (CGFloat)commentHeight {
-    if (!self.commentView || !self.commentModel) {
-        return 0.f;
-    }
-    if ([self.commentView respondsToSelector:@selector(heightForViewWithObject:)]) {
-        return [self.commentView heightForViewWithObject:self.commentModel];
-    }
-    return 0.f;
-}
-
-- (void)updateData {
-    if (!self.commentView || !self.commentModel) {
-        return;
-    }
-    if ([self.commentView respondsToSelector:@selector(updateViewWithObject:)]) {
-        [self.commentView updateViewWithObject:self.commentModel];
-    }
-}
 
 @end
 
@@ -43,6 +26,8 @@
 
 @end
 @implementation WBVideoCommentEngine
+@synthesize scrollFromFirstObject = _scrollFromFirstObject;
+@synthesize scrollAnimationDuration = _scrollAnimationDuration;
 
 #pragma mark - getter
 - (NSMutableArray<WBVideoBaseCommentObject *> *)totalDatas {
@@ -91,6 +76,13 @@
     if (self.visibleComments.count) {
         [self.visibleComments removeAllObjects];
     }
+    
+    if ([self respondsToSelector:@selector(scrollFromFirstObject)]) {
+        if (self.scrollFromFirstObject) {
+            return;
+        }
+    }
+    
     CGFloat visibleViewsHeight = 0.f;
     WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *lastCommentView = nil;
     for (WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *object in self.totalDatas) {
@@ -112,29 +104,38 @@
         
         WBVideoComment *comment = [[WBVideoComment alloc] init];
         comment.commentView = commentView;
-        comment.commentModel = object;
+        comment.object = object;
         [self.visibleComments addObject:comment];
         
         CGFloat restSpace = CGRectGetHeight(self.render.frame) - CGRectGetMaxY(commentView.frame);
-        [self _visibleViewMove:restSpace duration:0 completion:nil];
+        NSTimeInterval duration = .5f;
+        if ([self respondsToSelector:@selector(scrollAnimationDuration)]) {
+            duration = self.scrollAnimationDuration;
+        }
+        [self _visibleViewMove:restSpace duration:duration completion:nil];
         
         if (visibleViewsHeight > self.render.frame.size.height) {
             return;
         }
+        if ([self respondsToSelector:@selector(scrollFromFirstObject)]) {
+            if (self.scrollFromFirstObject && visibleViewsHeight > 1e-4) {
+                break;
+            }
+        }
     }
 }
 
-- (CGFloat)_getCommentViewHeightWithCommentView:(WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)commentView model:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)commentModel {
-    if (commentView && [commentView respondsToSelector:@selector(heightForViewWithObject:)]) {
-        return [commentView heightForViewWithObject:commentModel];
+- (CGFloat)_getCommentViewHeightWithCommentView:(WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)commentView model:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)object {
+    if (object && [object.cellClass respondsToSelector:@selector(heightForViewWithObject:)]) {
+        return [object.cellClass heightForViewWithObject:object];
     }
     return 0.f;
 }
 
-- (WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)_getCommentViewWithModel:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)commentModel {
+- (WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)_getCommentViewWithModel:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)object {
     WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *commentView = nil;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(viewWithData:)]) {
-        commentView = [self.delegate viewWithData:commentModel];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(viewWithObject:)]) {
+        commentView = [self.delegate viewWithObject:object];
     }
     NSAssert(commentView, @"commentView is nil");
     if (!commentView) {
@@ -142,7 +143,7 @@
     }
     
     if (commentView && [commentView respondsToSelector:@selector(updateViewWithObject:)]) {
-        [commentView updateViewWithObject:commentModel];
+        [commentView updateViewWithObject:object];
         
     }
     return commentView;
@@ -187,9 +188,13 @@
     
     WBVideoComment *comment = [[WBVideoComment alloc] init];
     comment.commentView = commentView;
-    comment.commentModel = nextObject;
+    comment.object = nextObject;
     [self.visibleComments addObject:comment];
-    [self _visibleViewMove:-perCommentHeight duration:1.f completion:^{
+    NSTimeInterval duration = .5f;
+    if ([self respondsToSelector:@selector(scrollAnimationDuration)]) {
+        duration = self.scrollAnimationDuration;
+    }
+    [self _visibleViewMove:-perCommentHeight duration:duration completion:^{
         [self _filterVisibleViews];
     }];
     self.tail = nextObject;
@@ -224,10 +229,7 @@
             [mutArray addObject:comment];
             continue;
         }
-        NSString *identifier = nil;
-        if ([comment.commentView respondsToSelector:@selector(reuseIdentifier)]) {
-            identifier = [comment.commentView reuseIdentifier];
-        }
+        NSString *identifier = [comment.object _validCellReuseIdentifier];
         if (!identifier) {
             continue;
         }

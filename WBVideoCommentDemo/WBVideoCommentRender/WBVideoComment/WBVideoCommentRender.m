@@ -9,6 +9,7 @@
 #import "WBVideoCommentEngine.h"
 #import "WBVideoBaseCommentView.h"
 #import "WBSVWeakProxy.h"
+#import "WBVideoBaseCommentObject+Private.h"
 
 @interface WBVideoCommentRender ()<WBVideoCommentEngineDelegate>
 @property (nonatomic, strong) WBVideoCommentEngine<WBVideoCommentEngineProtocol> *engine;
@@ -16,6 +17,9 @@
 @end
 
 @implementation WBVideoCommentRender
+@synthesize scrollFromFirstObject = _scrollFromFirstObject;
+@synthesize timeInterval = _timeInterval;
+@synthesize scrollAnimationDuration = _scrollAnimationDuration;
 
 #pragma mark - override
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -26,7 +30,7 @@
 }
 
 - (void)dealloc {
-     [self.timer invalidate];
+    [self.timer invalidate];
     NSLog(@"<%@:%p> dealloc, congratulations!!!",NSStringFromClass(self.class),self);
 }
 
@@ -35,7 +39,11 @@
     
     if (self.timer) { [self _stopTimer]; }
     
-    self.timer = [NSTimer timerWithTimeInterval:2.0 target:[WBSVWeakProxy proxyWithTarget:self] selector:@selector(playTimerRun) userInfo:nil repeats:YES];
+    NSTimeInterval interval = 1.f;
+    if ([self respondsToSelector:@selector(timeInterval)]) {
+        interval = self.timeInterval;
+    }
+    self.timer = [NSTimer timerWithTimeInterval:interval target:[WBSVWeakProxy proxyWithTarget:self] selector:@selector(playTimerRun) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
@@ -60,6 +68,12 @@
         }
         if ([_engine respondsToSelector:@selector(setDelegate:)]) {
             _engine.delegate = self;
+        }
+        if ([_engine respondsToSelector:@selector(setScrollFromFirstObject:)] && [self respondsToSelector:@selector(scrollFromFirstObject)]) {
+            _engine.scrollFromFirstObject = self.scrollFromFirstObject;
+        }
+        if ([_engine respondsToSelector:@selector(setScrollAnimationDuration:)] && [self respondsToSelector:@selector(scrollAnimationDuration)]) {
+            _engine.scrollAnimationDuration = self.scrollAnimationDuration;
         }
     }
     return _engine;
@@ -101,7 +115,6 @@
         return firstObj;
     }
     return nil;
-    
 }
 
 #pragma mark - aoto play
@@ -121,17 +134,23 @@
 
 
 #pragma mark - WBVideoCommentEngineDelegate
-- (__kindof WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)viewWithData:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)commentModel {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(render:data:)]) {
-        return [self.delegate render:self data:commentModel];
+- (__kindof WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)viewWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)object {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(render:viewWithObject:)]) {
+        return [self.delegate render:self viewWithObject:object];
     }
     if (self.instanceCommentViewBlock) {
         WBVideoReuseCommentViewBlock reuseCommentViewBlock = ^WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *(NSString *identifier){
             return [self dequeueReusableCellWithIdentifier:identifier];
         };
-        return self.instanceCommentViewBlock(reuseCommentViewBlock, commentModel);
+        return self.instanceCommentViewBlock(reuseCommentViewBlock,self,object);
     }
-    return nil;
+    Class<WBVideoBaseCommentViewProtocol> cellClass = [object _validCellClass];
+    NSString *identifier = [object _validCellReuseIdentifier];
+    WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *commentView = [self dequeueReusableCellWithIdentifier:identifier];
+    if (!commentView) {
+        commentView = [[[cellClass class] alloc] init];
+    }
+    return commentView;
 }
 
 @end

@@ -11,11 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol WBVideoBaseCommentViewProtocol <NSObject>
-- (NSString *)reuseIdentifier;
++ (NSString *)reuseIdentifier;
 - (void)prepareForReuse;
 - (void)prepareForHidden;
 @required
-- (CGFloat)heightForViewWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)object;
++ (CGFloat)heightForViewWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)object;
 - (void)updateViewWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentObjectProtocol> *)object;
 @end
 

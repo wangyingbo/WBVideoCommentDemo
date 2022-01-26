@@ -22,7 +22,7 @@
 }
 
 #pragma mark - WBVideoBaseCommentViewProtocol
-- (NSString *)reuseIdentifier {
++ (NSString *)reuseIdentifier {
     return NSStringFromClass([self class]);
 }
 
@@ -34,7 +34,7 @@
     
 }
 
-- (CGFloat)heightForViewWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentViewProtocol> *)object {
++ (CGFloat)heightForViewWithObject:(WBVideoBaseCommentObject<WBVideoBaseCommentViewProtocol> *)object {
     return 0.f;
 }
 

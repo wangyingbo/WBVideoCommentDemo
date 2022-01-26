@@ -59,18 +59,31 @@
     commentRender.backgroundColor = [UIColor colorWithWhite:0 alpha:.2];
     commentRender.delegate = self;
     commentRender.scrollByCalculated = YES;
+    if ([commentRender respondsToSelector:@selector(setScrollFromFirstObject:)]) {
+        [commentRender setScrollFromFirstObject:YES];
+    }
+    if ([commentRender respondsToSelector:@selector(setTimeInterval:)]) {
+        [commentRender setTimeInterval:1.5f];
+    }
+    if ([commentRender respondsToSelector:@selector(setScrollAnimationDuration:)]) {
+        [commentRender setScrollAnimationDuration:1.f];
+    }
     [self.view addSubview:commentRender];
     _render = commentRender;
 }
 
 - (void)updateRender {
-    [self.render updateWithDatas:[self getOtherCommentModels]];
-    [self.render startPlay];
+    if ([self.render respondsToSelector:@selector(updateWithDatas:)]) {
+        [self.render updateWithDatas:[self getOtherObjects]];
+    }
+    if ([self.render respondsToSelector:@selector(startPlay)]) {
+        [self.render startPlay];
+    }
 }
 
 #pragma mark - DATA
 
-- (NSArray<WBVideoTableCommentOjbect *> *)getOtherCommentModels {
+- (NSArray<WBVideoTableCommentOjbect *> *)getOtherObjects {
     NSMutableArray *mutArray = [NSMutableArray array];
     WBVideoTableCommentOjbect *(^createOjbect)(NSString *) = ^WBVideoTableCommentOjbect *(NSString *content) {
         //组装cell object

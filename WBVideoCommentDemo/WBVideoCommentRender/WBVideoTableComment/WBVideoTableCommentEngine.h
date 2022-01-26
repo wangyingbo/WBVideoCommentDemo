@@ -13,10 +13,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol WBVideoTableCommentEngineProtocol <NSObject>
+@required
 - (WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)getNextObject;
-- (void)nextObjectToRect:(CGRect)rect duration:(NSTimeInterval)duration;
+- (void)adjustNextObjectRect:(CGRect)rect duration:(NSTimeInterval)duration;
 @optional
 - (void)didAutoShowNextObject;
+/**首次加载时，是否从第一个开始滚*/
+@property (nonatomic, assign) BOOL scrollFromFirstObject;
+
 @end
 
 typedef void(^UpdateValueBlock)(CGFloat value);

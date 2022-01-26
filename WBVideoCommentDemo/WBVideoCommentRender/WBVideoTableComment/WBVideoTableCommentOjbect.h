@@ -1,5 +1,5 @@
 //
-//  WBVideoTableCommentModel.h
+//  WBVideoTableCommentOjbect.h
 //  WBVideoCommentDemo
 //
 //  Created by yingbo5 on 2022/1/19.
@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface WBVideoTableCommentOjbect : NSObject<WBVideoTableCommentOjbectProtocol>
-@property (nonatomic, strong) Class cellClass;
+@property (nonatomic, strong) Class<WBVideoTableCommentCellProtocol> cellClass;
 @property (nonatomic, copy) NSString *reuseIdentifier;
 @property (nonatomic, strong) id model;
 @property (nonatomic, strong) WBVideoTableCommonInfo *commonInfo;
