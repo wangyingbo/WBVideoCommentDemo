@@ -68,11 +68,14 @@
 #pragma mark - getter
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
         [self addSubview:_tableView];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.showsHorizontalScrollIndicator = NO;
+        _tableView.estimatedRowHeight = 44.f;
+        _tableView.estimatedSectionFooterHeight = 0.1f;
+        _tableView.estimatedSectionHeaderHeight = 0.1f;
         _tableView.scrollEnabled = NO;
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -96,9 +99,19 @@
 #pragma mark - UI
 - (void)initUI {
     
-    [self addSubview:self.tableView];
+    [self _initTableView];
     [self _registerCellClass];
     
+}
+
+- (void)_initTableView {
+    [self addSubview:self.tableView];
+    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), 0.1f)];
+    tableFooterView.backgroundColor = [UIColor clearColor];
+    _tableView.tableFooterView = tableFooterView;
+    UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), 0.1f)];
+    tableHeaderView.backgroundColor = [UIColor clearColor];
+    _tableView.tableHeaderView = tableHeaderView;
 }
 
 - (void)_registerCellClass {
@@ -129,10 +142,6 @@
 - (void)startPlay {
     [self _startInitialVisibleComments];
     [self _startTimer];
-    
-    if (self.scrollFromFirstObject) {
-        [self playTimerRun];
-    }
 }
 
 #pragma mark - aoto play
@@ -167,13 +176,17 @@
         if (![mutDataArr isKindOfClass:[NSMutableArray class]]) {
             return;
         }
+        if (!object) {
+            return;
+        }
         [mutDataArr addObject:object];
         self.dataArray = [mutDataArr copy];
     };
     
     //调用scrollToRowAtIndexPath:自动滚到下一个
-    if (newIndexPath.row < self.dataArray.count && !self.scrollByCalculated) {
+    if (!self.scrollByCalculated) {
         insertDataBlock(nextObject);
+        if (newIndexPath.row + 1 > self.dataArray.count) { return; }
         //直接刷新reloadData
         [self.tableView reloadData];
         [self.tableView scrollToRowAtIndexPath:newIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
@@ -208,13 +221,16 @@
 - (void)_calculateNextObject:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)nextObject {
     //获取上一个last cell相对render的位置
     WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *lastVisibleCell = nil;
+    NSIndexPath *lastVisibleIndexPath = nil;
     if (!lastVisibleCell) {
         lastVisibleCell = [self _currentLastVisibleCell];
+        lastVisibleIndexPath = [self _currentLastVisibleIndexPath];
     }
     if (!lastVisibleCell && self.dataArray.count >= 2) {
         NSInteger lastIndex = (self.dataArray.count - 2);
         NSIndexPath *lastIndexPath = [NSIndexPath indexPathForRow:lastIndex inSection:0];
         lastVisibleCell = [self.tableView cellForRowAtIndexPath:lastIndexPath];
+        lastVisibleIndexPath = lastIndexPath;
     }
     if (!lastVisibleCell && self.tableView.visibleCells.count >= 2) {
         NSArray *visibleCells = self.tableView.visibleCells;
@@ -226,15 +242,16 @@
             CGFloat tempCellCenterY = CGRectGetMaxY(tempCellRect) - CGRectGetHeight(tempCellRect)/2;
             if ((CGRectGetMaxY(self.tableView.frame) - self.engine.contentInset.bottom) > tempCellCenterY) {
                 lastVisibleCell = tempCell;
+                lastVisibleIndexPath = [self.tableView indexPathForCell:lastVisibleCell];
                 break;
             }
         }
     }
     CGRect lastVisibleRect = CGRectZero;
-    if (lastVisibleCell) {
-        lastVisibleRect = [self.tableView convertRect:lastVisibleCell.frame toView:self];
+    if (lastVisibleIndexPath) {
+        CGRect rectInTableView = [self.tableView rectForRowAtIndexPath:lastVisibleIndexPath];
+        lastVisibleRect = [self.tableView convertRect:rectInTableView toView:[self.tableView superview]];
     }
-    //NSLog(@"last cell:%@, last object rect:%@ maxY:%@",lastVisibleCell,NSStringFromCGRect(lastVisibleRect),[NSNumber numberWithFloat:CGRectGetMaxY(lastVisibleRect)]);
     
     //算出即将自动滚出的cell相对render的位置
     CGFloat newCellHeight = 0.f;
@@ -243,11 +260,14 @@
         newCellHeight = [cellClass heightForCellWithObject:nextObject];
     }
     CGRect newCellVisibleRect = CGRectZero;
-    if (lastVisibleCell) {
+    if (!CGRectEqualToRect(lastVisibleRect, CGRectZero)) {
         newCellVisibleRect = CGRectMake(CGRectGetMinX(lastVisibleRect), CGRectGetMaxY(lastVisibleRect), CGRectGetWidth(lastVisibleRect), newCellHeight);
     } else {
         newCellVisibleRect = CGRectMake(CGRectGetMinX(self.tableView.frame), CGRectGetHeight(self.tableView.frame), CGRectGetWidth(self.tableView.frame) - self.engine.contentInset.bottom, newCellHeight);
     }
+    NSLog(@"contentInset.top:%f",self.tableView.contentInset.top);
+    NSLog(@"last cell rect:%@, next object rect:%@",NSStringFromCGRect(lastVisibleRect),NSStringFromCGRect(newCellVisibleRect));
+    
     if ([self.engine respondsToSelector:@selector(adjustNextObjectRect:duration:)]) {
         NSTimeInterval duration = .5f;
         if ([self respondsToSelector:@selector(scrollAnimationDuration)]) {
@@ -346,11 +366,23 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.01f;
+    return 0.1f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0.01f;
+    return 0.1f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UITableViewHeaderFooterView *headerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:[NSString stringWithFormat:@"%@Header",NSStringFromClass([self class])]];
+    headerView.backgroundView.backgroundColor = [UIColor clearColor];
+    return headerView;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UITableViewHeaderFooterView *footerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:[NSString stringWithFormat:@"%@Footer",NSStringFromClass([self class])]];
+    footerView.backgroundView.backgroundColor = [UIColor clearColor];
+    return footerView;
 }
 
 #pragma mark - UIScrollViewDelegate

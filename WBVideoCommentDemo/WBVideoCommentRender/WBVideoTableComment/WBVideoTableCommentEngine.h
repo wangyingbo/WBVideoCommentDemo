@@ -20,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didAutoShowNextObject;
 /**首次加载时，是否从第一个开始滚*/
 @property (nonatomic, assign) BOOL scrollFromFirstObject;
+/**iOS11以下时，改变contentOffset是否使用自定义线性动画*/
+@property (nonatomic, assign) BOOL linearAnimation;
+
 
 @end
 

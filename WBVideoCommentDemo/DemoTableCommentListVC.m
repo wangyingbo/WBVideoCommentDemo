@@ -58,15 +58,15 @@
     WBVideoTableCommentRender *commentRender = [[WBVideoTableCommentRender alloc] initWithFrame:bgView.frame];
     commentRender.backgroundColor = [UIColor colorWithWhite:0 alpha:.2];
     commentRender.delegate = self;
-    commentRender.scrollByCalculated = YES;
+    commentRender.scrollByCalculated = NO;
     if ([commentRender respondsToSelector:@selector(setScrollFromFirstObject:)]) {
         [commentRender setScrollFromFirstObject:YES];
     }
     if ([commentRender respondsToSelector:@selector(setTimeInterval:)]) {
-        [commentRender setTimeInterval:1.5f];
+        [commentRender setTimeInterval:2.f];
     }
     if ([commentRender respondsToSelector:@selector(setScrollAnimationDuration:)]) {
-        [commentRender setScrollAnimationDuration:1.f];
+        [commentRender setScrollAnimationDuration:.5f];
     }
     [self.view addSubview:commentRender];
     _render = commentRender;

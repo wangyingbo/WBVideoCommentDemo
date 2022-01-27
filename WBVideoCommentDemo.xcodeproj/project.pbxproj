@@ -127,6 +127,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A416B14427A2B067008B0555 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				A4E0127D27969495006DE021 /* WBSVWeakProxy.h */,
+				A4E0127E27969495006DE021 /* WBSVWeakProxy.m */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
 		A416FFDB27A142FA003CDD19 /* WBVideoCommentRender */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,9 +197,8 @@
 				A4E012852796CDF0006DE021 /* DemoCustomCommentListVC.m */,
 				A49FBFF82797B0EA0034E7FE /* DemoTableCommentListVC.h */,
 				A49FBFF92797B0EA0034E7FE /* DemoTableCommentListVC.m */,
+				A416B14427A2B067008B0555 /* Tools */,
 				A4E012802796A8F8006DE021 /* TestData */,
-				A4E0127D27969495006DE021 /* WBSVWeakProxy.h */,
-				A4E0127E27969495006DE021 /* WBSVWeakProxy.m */,
 				A4E0124027968B3C006DE021 /* Main.storyboard */,
 				A4E0124327968B3D006DE021 /* Assets.xcassets */,
 				A4E0124527968B3D006DE021 /* LaunchScreen.storyboard */,

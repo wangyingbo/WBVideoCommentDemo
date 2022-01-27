@@ -17,6 +17,7 @@
 
 @implementation WBVideoTableCommentEngine
 @synthesize scrollFromFirstObject = _scrollFromFirstObject;
+@synthesize linearAnimation = _linearAnimation;
 
 #pragma mark - getter
 - (NSMutableArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)totalObjectsArray {
@@ -51,7 +52,7 @@
 - (NSArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)_handleVisibleObjects {
     CGFloat visibleObjectHeight = 0.f;
     NSMutableArray *visibleObjectsMutArr = [NSMutableArray array];
-        
+    
     if ([self respondsToSelector:@selector(scrollFromFirstObject)]) {
         if (self.scrollFromFirstObject) {
             UIEdgeInsets inset = self.contentInset;
@@ -172,23 +173,68 @@
 }
 
 - (void)adjustNextObjectRect:(CGRect)rect duration:(NSTimeInterval)duration {
-    [self _handleVisibleRectWithLastObjectBottom:CGRectGetMaxY(rect) updateContentInsetBlock:^(CGFloat value) {
+    CGRect convertRect = [self.tableView convertRect:rect fromView:self.tableView];
+    [self _handleVisibleRectWithLastObjectBottom:CGRectGetMaxY(convertRect) updateContentInsetBlock:^(CGFloat value) {
         [UIView animateWithDuration:duration animations:^{
             UIEdgeInsets inset = self.tableView.contentInset;
             inset.top += value;
             self.tableView.contentInset = inset;
         }];
     } updateContentOffsetBlock:^(CGFloat value) {
-        /**
-         解决在UIView动画中setContentOffset导致的顶部的cell消失问题，详细问题描述见stackoverflow:
-         https://stackoverflow.com/questions/4404745/change-the-speed-of-setcontentoffsetanimated
-         */
-        [UIView animateWithDuration:duration animations:^{
+        if (@available(iOS 11.0, *)) {
+            /**
+             解决在UIView动画中setContentOffset导致的顶部的cell消失问题，详细问题描述见stackoverflow:
+             https://stackoverflow.com/questions/4404745/change-the-speed-of-setcontentoffsetanimated
+             */
+            [UIView animateWithDuration:duration animations:^{
+                CGPoint originOffset = self.tableView.contentOffset;
+                [self.tableView setContentOffset:CGPointMake(originOffset.x, (originOffset.y+value)) animated:NO];
+                [self.tableView layoutIfNeeded];
+            }];
+        }else {
             CGPoint originOffset = self.tableView.contentOffset;
-            [self.tableView setContentOffset:CGPointMake(originOffset.x, (originOffset.y+value)) animated:NO];
-            [self.tableView layoutIfNeeded];
-        }];
+            if (duration < 1e-4) {
+                [self.tableView setContentOffset:CGPointMake(originOffset.x, (originOffset.y+value)) animated:NO];
+                return;
+            }
+            if (duration <= 0.5f || value < 5.f) {
+                [self.tableView setContentOffset:CGPointMake(originOffset.x, (originOffset.y+value)) animated:YES];
+                return;
+            }
+            if ([self _isUseLinearAnimation]) {
+                //模拟线性动画
+                NSInteger scale = (value > 20 ? (value/20) : 1 );
+                NSInteger times = (duration * 20) * scale;
+                NSTimeInterval secTime = duration/times;
+                NSTimeInterval secValue = value/times;
+                for (NSInteger i = 0; i<times; i++) {
+                    CGPoint newOffset = CGPointMake(originOffset.x, originOffset.y+secValue*i);
+                    NSValue *offsetValue = [NSValue valueWithCGPoint:newOffset];
+                    [self performSelector:@selector(_setContnetOffset:) withObject:offsetValue afterDelay:secTime*i];
+                }
+                return;
+            }
+            [self.tableView setContentOffset:CGPointMake(originOffset.x, (originOffset.y+value)) animated:YES];
+        }
     }];
+}
+
+/// 是否使用自定义线性动画
+- (BOOL)_isUseLinearAnimation {
+    if ([self respondsToSelector:@selector(linearAnimation)]) {
+        return self.linearAnimation;
+    }
+    return NO;
+}
+
+- (void)_setContnetOffset:(id)object {
+    if (!self.tableView) { return; }
+    if (![object isKindOfClass:[NSValue class]]) { return; }
+    NSValue *offsetValue = (NSValue *)object;
+    if (!offsetValue) { return; }
+    CGPoint offset = [offsetValue CGPointValue];
+    [self.tableView setContentOffset:offset];
+    
 }
 
 - (void)didAutoShowNextObject {

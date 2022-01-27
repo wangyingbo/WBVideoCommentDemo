@@ -13,8 +13,6 @@
 
 @interface ViewController ()
 @property (nonatomic, strong) UIControl *transView;
-@property (nonatomic, assign) BOOL isTransAnimationed;
-
 @end
 
 @implementation ViewController
@@ -85,7 +83,6 @@
 
 - (void)transAction {
     CGFloat animationDuration = 1.f;
-    
     CGRect originFrame = [self getTransViewFrame];
     CGFloat scale = .7f;
     
@@ -93,41 +90,20 @@
         [UIView animateWithDuration:animationDuration animations:^{
             CGFloat tx = originFrame.size.width/2 - (originFrame.size.width*scale)/2;
             CGFloat ty = originFrame.size.height/2 - (originFrame.size.height*scale)/2;
-            
 //            self.transView.transform = CGAffineTransformMake(scale, 0, 0, scale, -tx, ty);
-            
             CGAffineTransform transform = CGAffineTransformConcat(CGAffineTransformMakeScale(scale, scale), CGAffineTransformMakeTranslation(-tx, ty));
             self.transView.transform = transform;
             
             self.transView.alpha = .2f;
         } completion:^(BOOL finished) {
-            NSLog(@"%@",NSStringFromCGRect(self.transView.frame));
+            NSLog(@"transView frame: %@",NSStringFromCGRect(self.transView.frame));
         }];
     }else {
         [UIView animateWithDuration:animationDuration animations:^{
             self.transView.transform = CGAffineTransformIdentity;
             self.transView.alpha = 1.f;
         } completion:^(BOOL finished) {
-            
-        }];
-    }
-    
-    
-    return;
-    if (self.isTransAnimationed) {
-        [UIView animateWithDuration:animationDuration animations:^{
-            self.transView.frame = originFrame;
-        } completion:^(BOOL finished) {
-            self.isTransAnimationed = NO;
-        }];
-    }else {
-        [UIView animateWithDuration:animationDuration animations:^{
-            CGRect newFrame = originFrame;
-            newFrame.size.width = 100.f;
-            newFrame.size.height = 100.f;
-            self.transView.frame = newFrame;
-        } completion:^(BOOL finished) {
-            self.isTransAnimationed = YES;
+            NSLog(@"transView frame: %@",NSStringFromCGRect(self.transView.frame));
         }];
     }
 }
