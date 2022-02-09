@@ -6,15 +6,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WBVideoTableCommentOjbect.h"
+#import "WBVideoTableCommentObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol WBVideoTableCommentCellProtocol <NSObject>
 + (NSString *)reuseIdentifier;
 @required
-+ (CGFloat)heightForCellWithObject:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)object;
-- (void)updateCellWithObject:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)object;
++ (CGFloat)heightForCellWithObject:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)object;
+- (void)updateCellWithObject:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)object;
 @optional
 @end
 

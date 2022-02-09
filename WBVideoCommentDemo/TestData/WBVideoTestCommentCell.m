@@ -10,7 +10,7 @@
 
 @interface WBVideoTestCommentCell ()
 @property (nonatomic, strong) UILabel *commentLabel;
-@property (nonatomic, strong) WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *object;
+@property (nonatomic, strong) WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *object;
 @end
 @implementation WBVideoTestCommentCell
 
@@ -43,11 +43,11 @@
 }
 
 #pragma mark - WBVideoTableCommentCell
-+ (CGFloat)heightForCellWithObject:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)object {
++ (CGFloat)heightForCellWithObject:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)object {
     return [WBVideoTestCommentCell _getCommentsHeightWithObject:object];
 }
 
-- (void)updateCellWithObject:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)object {
+- (void)updateCellWithObject:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)object {
     self.object = object;
     WBVideoTestData *model = object.model;
     self.commentLabel.text = model.content?:@"";
@@ -55,7 +55,7 @@
     self.commentLabel.textColor = [UIColor redColor];
 }
 
-+ (CGFloat)_getCommentsHeightWithObject:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)object {
++ (CGFloat)_getCommentsHeightWithObject:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)object {
     if (!object) {
         return 0.f;
     }

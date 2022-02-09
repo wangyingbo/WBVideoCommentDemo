@@ -1,15 +1,15 @@
 //
-//  WBVideoTableCommentOjbect.m
+//  WBVideoTableCommentObject.m
 //  WBVideoCommentDemo
 //
 //  Created by yingbo5 on 2022/1/19.
 //
 
-#import "WBVideoTableCommentOjbect.h"
-#import "WBVideoTableCommentOjbect+Private.h"
+#import "WBVideoTableCommentObject.h"
+#import "WBVideoTableCommentObject+Private.h"
 #import "WBVideoTableCommentCell.h"
 
-@implementation WBVideoTableCommentOjbect
+@implementation WBVideoTableCommentObject
 - (WBVideoTableCommonInfo *)commonInfo {
     if (!_commonInfo) {
         _commonInfo = [[WBVideoTableCommonInfo alloc] init];

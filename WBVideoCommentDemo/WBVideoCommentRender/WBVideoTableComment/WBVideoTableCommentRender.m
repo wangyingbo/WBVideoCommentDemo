@@ -8,13 +8,13 @@
 #import "WBVideoTableCommentRender.h"
 #import "WBSVWeakProxy.h"
 #import "WBVideoTableCommentEngine.h"
-#import "WBVideoTableCommentOjbect+Private.h"
+#import "WBVideoTableCommentObject+Private.h"
 #import "WBVideoTableCommentCell.h"
 
 @interface WBVideoTableCommentRender ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSTimer *timer;
-@property (nonatomic, copy) NSArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *dataArray;
+@property (nonatomic, copy) NSArray<WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *> *dataArray;
 @property (nonatomic, strong) WBVideoTableCommentEngine<WBVideoTableCommentEngineProtocol> *engine;
 @end
 
@@ -133,7 +133,7 @@
 }
 
 #pragma mark - public
-- (void)updateWithDatas:(NSArray<WBVideoTableCommentOjbect *> *)datas {
+- (void)updateWithDatas:(NSArray<WBVideoTableCommentObject *> *)datas {
     if ([self.engine respondsToSelector:@selector(updateAllObjects:)]) {
         [self.engine updateAllObjects:datas];
     }
@@ -148,7 +148,7 @@
 
 /// 首次进来只显示可见区域的cell
 - (void)_startInitialVisibleComments {
-    NSArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *initialObjects = nil;
+    NSArray<WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *> *initialObjects = nil;
     if ([self.engine respondsToSelector:@selector(startPlayInitialObjects)]) {
         initialObjects = [self.engine startPlayInitialObjects];
     }
@@ -158,7 +158,7 @@
 
 /// 自动添加下一个
 - (void)_autoShowNextComment {
-    WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *nextObject = nil;
+    WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *nextObject = nil;
     if ([self.engine respondsToSelector:@selector(getNextObject)]) {
         nextObject = [self.engine getNextObject];
     }
@@ -171,7 +171,7 @@
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:newIndex inSection:0];
     
     //insert data
-    void(^insertDataBlock)(WBVideoTableCommentOjbect *) = ^void(WBVideoTableCommentOjbect *object) {
+    void(^insertDataBlock)(WBVideoTableCommentObject *) = ^void(WBVideoTableCommentObject *object) {
         NSMutableArray *mutDataArr = [self.dataArray mutableCopy];
         if (![mutDataArr isKindOfClass:[NSMutableArray class]]) {
             return;
@@ -218,7 +218,7 @@
     
 }
 
-- (void)_calculateNextObject:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)nextObject {
+- (void)_calculateNextObject:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)nextObject {
     //获取上一个last cell相对render的位置
     WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *lastVisibleCell = nil;
     NSIndexPath *lastVisibleIndexPath = nil;
@@ -323,7 +323,7 @@
     if (indexPath.row+1 > self.dataArray.count) {
         return 0.f;
     }
-    WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *object = [self.dataArray objectAtIndex:indexPath.row];
+    WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *object = [self.dataArray objectAtIndex:indexPath.row];
     Class<WBVideoTableCommentCellProtocol> cellClass = [object _validCellClass];
     if ([cellClass respondsToSelector:@selector(heightForCellWithObject:)]) {
         return [cellClass heightForCellWithObject:object];
@@ -336,7 +336,7 @@
         return nil;
     }
     WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *cell = nil;
-    WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *object = [self.dataArray objectAtIndex:indexPath.row];
+    WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *object = [self.dataArray objectAtIndex:indexPath.row];
     Class<WBVideoTableCommentCellProtocol> cellClass = [object _validCellClass];
     NSString *identifier = [object _validCellReuseIdentifier];
     
@@ -358,7 +358,7 @@
     if (indexPath.row+1 > self.dataArray.count) {
         return;
     }
-    WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *object = [self.dataArray objectAtIndex:indexPath.row];
+    WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *object = [self.dataArray objectAtIndex:indexPath.row];
     WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (self.delegate && [self.delegate respondsToSelector:@selector(render:data:tableView:didSelectRowAtIndexPath:cell:)]) {
         [self.delegate render:self data:object tableView:tableView didSelectRowAtIndexPath:indexPath cell:cell];

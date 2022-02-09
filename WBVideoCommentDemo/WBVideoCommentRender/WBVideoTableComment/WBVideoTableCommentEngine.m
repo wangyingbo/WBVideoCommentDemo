@@ -6,13 +6,13 @@
 //
 
 #import "WBVideoTableCommentEngine.h"
-#import "WBVideoTableCommentOjbect.h"
+#import "WBVideoTableCommentObject.h"
 #import "WBVideoTableCommentCell.h"
-#import "WBVideoTableCommentOjbect+Private.h"
+#import "WBVideoTableCommentObject+Private.h"
 
 @interface WBVideoTableCommentEngine ()
-@property (nonatomic, strong) NSMutableArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *totalObjectsArray;
-@property (nonatomic, weak) WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *wanderObject;//游走指针
+@property (nonatomic, strong) NSMutableArray<WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *> *totalObjectsArray;
+@property (nonatomic, weak) WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *wanderObject;//游走指针
 @end
 
 @implementation WBVideoTableCommentEngine
@@ -20,7 +20,7 @@
 @synthesize linearAnimation = _linearAnimation;
 
 #pragma mark - getter
-- (NSMutableArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)totalObjectsArray {
+- (NSMutableArray<WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *> *)totalObjectsArray {
     if (!_totalObjectsArray) {
         _totalObjectsArray = [NSMutableArray array];
     }
@@ -28,14 +28,14 @@
 }
 
 #pragma mark - public
-- (void)updateAllObjects:(NSArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)objects {
+- (void)updateAllObjects:(NSArray<WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *> *)objects {
     [self _resetData];
     if (objects.count) {
         [self.totalObjectsArray addObjectsFromArray:objects];
     }
 }
 
-- (NSArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)startPlayInitialObjects {
+- (NSArray<WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *> *)startPlayInitialObjects {
     return [self _handleVisibleObjects];
 }
 
@@ -49,7 +49,7 @@
     }
 }
 
-- (NSArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)_handleVisibleObjects {
+- (NSArray<WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *> *)_handleVisibleObjects {
     CGFloat visibleObjectHeight = 0.f;
     NSMutableArray *visibleObjectsMutArr = [NSMutableArray array];
     
@@ -63,8 +63,8 @@
         }
     }
     
-    for (WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *object in self.totalObjectsArray) {
-        if (![object isKindOfClass:[WBVideoTableCommentOjbect class]]) {
+    for (WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *object in self.totalObjectsArray) {
+        if (![object isKindOfClass:[WBVideoTableCommentObject class]]) {
             continue;
         }
         Class<WBVideoTableCommentCellProtocol> cellClass = [object _validCellClass];
@@ -139,7 +139,7 @@
     
 }
 
-- (WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)_getNextObject {
+- (WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)_getNextObject {
     if (!self.totalObjectsArray.count) {
         return nil;
     }
@@ -147,12 +147,12 @@
         self.wanderObject = [self.totalObjectsArray firstObject];
         return [self.totalObjectsArray firstObject];
     }
-    WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *nextObject = nil;
+    WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *nextObject = nil;
     NSInteger index = [self.totalObjectsArray indexOfObject:self.wanderObject];
     if (index+1 >= self.totalObjectsArray.count) {
-        nextObject = (WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)[self.totalObjectsArray firstObject];
+        nextObject = (WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)[self.totalObjectsArray firstObject];
     }else if (index+1 < self.totalObjectsArray.count) {
-        nextObject = (WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)[self.totalObjectsArray objectAtIndex:index+1];
+        nextObject = (WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)[self.totalObjectsArray objectAtIndex:index+1];
     }
     if (!nextObject) {
         return nil;
@@ -168,7 +168,7 @@
 
 #pragma mark - WBVideoTableCommentEngine
 
-- (WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)getNextObject {
+- (WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)getNextObject {
     return [self _getNextObject];
 }
 

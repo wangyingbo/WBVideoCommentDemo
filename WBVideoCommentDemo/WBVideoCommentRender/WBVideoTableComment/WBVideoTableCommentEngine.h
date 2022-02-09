@@ -7,14 +7,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@class WBVideoTableCommentOjbect;
-@protocol WBVideoTableCommentOjbectProtocol;
+@class WBVideoTableCommentObject;
+@protocol WBVideoTableCommentObjectProtocol;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol WBVideoTableCommentEngineProtocol <NSObject>
 @required
-- (WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)getNextObject;
+- (WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)getNextObject;
 - (void)adjustNextObjectRect:(CGRect)rect duration:(NSTimeInterval)duration;
 @optional
 - (void)didAutoShowNextObject;
@@ -31,8 +31,8 @@ typedef void(^UpdateValueBlock)(CGFloat value);
 @interface WBVideoTableCommentEngine : NSObject<WBVideoTableCommentEngineProtocol>
 @property (nonatomic, weak) UITableView *tableView;
 @property(nonatomic) UIEdgeInsets contentInset;
-- (void)updateAllObjects:(NSArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)objects;
-- (NSArray<WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *> *)startPlayInitialObjects;
+- (void)updateAllObjects:(NSArray<WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *> *)objects;
+- (NSArray<WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *> *)startPlayInitialObjects;
 @end
 
 NS_ASSUME_NONNULL_END

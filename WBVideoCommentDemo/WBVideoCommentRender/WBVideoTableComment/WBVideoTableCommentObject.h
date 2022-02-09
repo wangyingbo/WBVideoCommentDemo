@@ -1,5 +1,5 @@
 //
-//  WBVideoTableCommentOjbect.h
+//  WBVideoTableCommentObject.h
 //  WBVideoCommentDemo
 //
 //  Created by yingbo5 on 2022/1/19.
@@ -16,12 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat maxWidth;
 @end
 
-@protocol WBVideoTableCommentOjbectProtocol <NSObject>
+@protocol WBVideoTableCommentObjectProtocol <NSObject>
 - (NSString *)reuseIdentifier;
 - (Class<WBVideoTableCommentCellProtocol>)cellClass;
 @end
 
-@interface WBVideoTableCommentOjbect : NSObject<WBVideoTableCommentOjbectProtocol>
+@interface WBVideoTableCommentObject : NSObject<WBVideoTableCommentObjectProtocol>
 @property (nonatomic, strong) Class<WBVideoTableCommentCellProtocol> cellClass;
 @property (nonatomic, copy) NSString *reuseIdentifier;
 @property (nonatomic, strong) id model;

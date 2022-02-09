@@ -11,7 +11,7 @@
 		A49FBFFE2797B1CA0034E7FE /* WBVideoTableCommentRender.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FBFFD2797B1CA0034E7FE /* WBVideoTableCommentRender.m */; };
 		A49FC0012797B46A0034E7FE /* WBVideoTableCommentEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FC0002797B46A0034E7FE /* WBVideoTableCommentEngine.m */; };
 		A49FC0042797B48D0034E7FE /* WBVideoTableCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FC0032797B48D0034E7FE /* WBVideoTableCommentCell.m */; };
-		A49FC0072797B4A40034E7FE /* WBVideoTableCommentOjbect.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FC0062797B4A40034E7FE /* WBVideoTableCommentOjbect.m */; };
+		A49FC0072797B4A40034E7FE /* WBVideoTableCommentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FC0062797B4A40034E7FE /* WBVideoTableCommentObject.m */; };
 		A49FC00B2797F3A00034E7FE /* WBVideoTestCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A49FC00A2797F3A00034E7FE /* WBVideoTestCommentCell.m */; };
 		A4E0123927968B3C006DE021 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0123827968B3C006DE021 /* AppDelegate.m */; };
 		A4E0123C27968B3C006DE021 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A4E0123B27968B3C006DE021 /* SceneDelegate.m */; };
@@ -62,8 +62,8 @@
 		A49FC0002797B46A0034E7FE /* WBVideoTableCommentEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTableCommentEngine.m; sourceTree = "<group>"; };
 		A49FC0022797B48D0034E7FE /* WBVideoTableCommentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTableCommentCell.h; sourceTree = "<group>"; };
 		A49FC0032797B48D0034E7FE /* WBVideoTableCommentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTableCommentCell.m; sourceTree = "<group>"; };
-		A49FC0052797B4A40034E7FE /* WBVideoTableCommentOjbect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTableCommentOjbect.h; sourceTree = "<group>"; };
-		A49FC0062797B4A40034E7FE /* WBVideoTableCommentOjbect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTableCommentOjbect.m; sourceTree = "<group>"; };
+		A49FC0052797B4A40034E7FE /* WBVideoTableCommentObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTableCommentObject.h; sourceTree = "<group>"; };
+		A49FC0062797B4A40034E7FE /* WBVideoTableCommentObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTableCommentObject.m; sourceTree = "<group>"; };
 		A49FC0092797F3A00034E7FE /* WBVideoTestCommentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTestCommentCell.h; sourceTree = "<group>"; };
 		A49FC00A2797F3A00034E7FE /* WBVideoTestCommentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTestCommentCell.m; sourceTree = "<group>"; };
 		A4E0123427968B3C006DE021 /* WBVideoCommentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WBVideoCommentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,7 +99,7 @@
 		A4E012852796CDF0006DE021 /* DemoCustomCommentListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoCustomCommentListVC.m; sourceTree = "<group>"; };
 		A4EC556727990963003EF5A7 /* WBVideoTestData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBVideoTestData.h; sourceTree = "<group>"; };
 		A4EC556827990963003EF5A7 /* WBVideoTestData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBVideoTestData.m; sourceTree = "<group>"; };
-		A4EC556A27994103003EF5A7 /* WBVideoTableCommentOjbect+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBVideoTableCommentOjbect+Private.h"; sourceTree = "<group>"; };
+		A4EC556A27994103003EF5A7 /* WBVideoTableCommentObject+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBVideoTableCommentObject+Private.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,9 +155,9 @@
 				A49FC0002797B46A0034E7FE /* WBVideoTableCommentEngine.m */,
 				A49FC0022797B48D0034E7FE /* WBVideoTableCommentCell.h */,
 				A49FC0032797B48D0034E7FE /* WBVideoTableCommentCell.m */,
-				A49FC0052797B4A40034E7FE /* WBVideoTableCommentOjbect.h */,
-				A49FC0062797B4A40034E7FE /* WBVideoTableCommentOjbect.m */,
-				A4EC556A27994103003EF5A7 /* WBVideoTableCommentOjbect+Private.h */,
+				A49FC0052797B4A40034E7FE /* WBVideoTableCommentObject.h */,
+				A49FC0062797B4A40034E7FE /* WBVideoTableCommentObject.m */,
+				A4EC556A27994103003EF5A7 /* WBVideoTableCommentObject+Private.h */,
 			);
 			path = WBVideoTableComment;
 			sourceTree = "<group>";
@@ -385,7 +385,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4E012862796CDF0006DE021 /* DemoCustomCommentListVC.m in Sources */,
-				A49FC0072797B4A40034E7FE /* WBVideoTableCommentOjbect.m in Sources */,
+				A49FC0072797B4A40034E7FE /* WBVideoTableCommentObject.m in Sources */,
 				A49FC0042797B48D0034E7FE /* WBVideoTableCommentCell.m in Sources */,
 				A4E0127227968C34006DE021 /* WBVideoBaseCommentView.m in Sources */,
 				A4E0126F27968BC6006DE021 /* WBVideoCommentRender.m in Sources */,

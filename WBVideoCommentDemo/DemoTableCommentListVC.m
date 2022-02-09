@@ -83,11 +83,11 @@
 
 #pragma mark - DATA
 
-- (NSArray<WBVideoTableCommentOjbect *> *)getOtherObjects {
+- (NSArray<WBVideoTableCommentObject *> *)getOtherObjects {
     NSMutableArray *mutArray = [NSMutableArray array];
-    WBVideoTableCommentOjbect *(^createOjbect)(NSString *) = ^WBVideoTableCommentOjbect *(NSString *content) {
+    WBVideoTableCommentObject *(^createObject)(NSString *) = ^WBVideoTableCommentObject *(NSString *content) {
         //组装cell object
-        WBVideoTableCommentOjbect *object = [[WBVideoTableCommentOjbect alloc] init];
+        WBVideoTableCommentObject *object = [[WBVideoTableCommentObject alloc] init];
         object.commonInfo.maxWidth = self.render.frame.size.width;
         object.cellClass = WBVideoTestCommentCell.class;
         object.reuseIdentifier = NSStringFromClass(object.cellClass);
@@ -99,22 +99,22 @@
         [mutArray addObject:object];
         return object;
     };
-    createOjbect(@"第1：所有的程序都必须和计算机内存打交道，如何从内存中申请空间来存放程序的运行内容");
-    createOjbect(@"第2：如何在不需要的时候释放这些空间");
-    createOjbect(@"第3：成了重中之重");
-    createOjbect(@"第4：也是所有编程语言设计的难点之一");
-    createOjbect(@"第5：在计算机语言不断演变过程中，出现了三种流派");
-    createOjbect(@"第6：垃圾回收机制(GC)，在程序运行时不断寻找不再使用的内存，典型代表：Java、Go");
-    createOjbect(@"第7：手动管理内存的分配和释放, 在程序中，通过函数调用的方式来申请和释放内存，典型代表：C++");
-    createOjbect(@"第8：通过所有权来管理内存，编译器在编译时会根据一系列规则进行检查");
-    createOjbect(@"第9：其中Rust选择了第三种，最妙的是，这种检查只发生在编译期，因此对于程序运行期，不会有任何性能上的");
-    createOjbect(@"第10：由于所有权是一个新概念，因此读者需要花费一些时间来掌握它，一旦掌握，海阔天空任你飞跃，我们将通过字符串来引导讲解所有权的相关知识");
+    createObject(@"第1：所有的程序都必须和计算机内存打交道，如何从内存中申请空间来存放程序的运行内容");
+    createObject(@"第2：如何在不需要的时候释放这些空间");
+    createObject(@"第3：成了重中之重");
+    createObject(@"第4：也是所有编程语言设计的难点之一");
+    createObject(@"第5：在计算机语言不断演变过程中，出现了三种流派");
+    createObject(@"第6：垃圾回收机制(GC)，在程序运行时不断寻找不再使用的内存，典型代表：Java、Go");
+    createObject(@"第7：手动管理内存的分配和释放, 在程序中，通过函数调用的方式来申请和释放内存，典型代表：C++");
+    createObject(@"第8：通过所有权来管理内存，编译器在编译时会根据一系列规则进行检查");
+    createObject(@"第9：其中Rust选择了第三种，最妙的是，这种检查只发生在编译期，因此对于程序运行期，不会有任何性能上的");
+    createObject(@"第10：由于所有权是一个新概念，因此读者需要花费一些时间来掌握它，一旦掌握，海阔天空任你飞跃，我们将通过字符串来引导讲解所有权的相关知识");
     return [mutArray copy];
 }
 
 #pragma mark - WBVideoTableCommentRenderDelegate
 
-- (void)render:(WBVideoTableCommentRender *)render data:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)data tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath cell:(WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *)cell {
+- (void)render:(WBVideoTableCommentRender *)render data:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)data tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath cell:(WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *)cell {
     
 }
 

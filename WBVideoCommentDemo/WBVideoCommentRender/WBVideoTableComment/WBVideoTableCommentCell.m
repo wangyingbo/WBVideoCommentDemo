@@ -27,11 +27,11 @@
     return NSStringFromClass([self class]);
 }
 
-+ (CGFloat)heightForCellWithObject:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)object {
++ (CGFloat)heightForCellWithObject:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)object {
     return 0.f;
 }
 
-- (void)updateCellWithObject:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)object {
+- (void)updateCellWithObject:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)object {
     
 }
 

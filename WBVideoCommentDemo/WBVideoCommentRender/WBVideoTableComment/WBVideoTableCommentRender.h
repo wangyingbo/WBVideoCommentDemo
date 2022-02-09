@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WBVideoTableCommentOjbect.h"
+#import "WBVideoTableCommentObject.h"
 #import "WBVideoTableCommentCell.h"
 #import "WBVideoCommentRenderProtocol.h"
 @class WBVideoTableCommentRender;
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol WBVideoTableCommentRenderDelegate <NSObject>
 
-- (void)render:(WBVideoTableCommentRender *)render data:(WBVideoTableCommentOjbect<WBVideoTableCommentOjbectProtocol> *)data tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath cell:(WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *)cell;
+- (void)render:(WBVideoTableCommentRender *)render data:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)data tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath cell:(WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *)cell;
 
 @end
 typedef void(^RegisterCellClassBlock)(Class class, NSString *identifer);
@@ -29,7 +29,7 @@ typedef void(^RegisterCellClassBlock)(Class class, NSString *identifer);
  */
 @property (nonatomic, assign) BOOL scrollByCalculated;
 
-- (void)updateWithDatas:(NSArray<WBVideoTableCommentOjbect *> *)datas;
+- (void)updateWithDatas:(NSArray<WBVideoTableCommentObject *> *)datas;
 @end
 
 NS_ASSUME_NONNULL_END
