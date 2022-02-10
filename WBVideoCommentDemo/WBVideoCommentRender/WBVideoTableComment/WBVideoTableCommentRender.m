@@ -360,8 +360,8 @@
     }
     WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *object = [self.dataArray objectAtIndex:indexPath.row];
     WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(render:data:tableView:didSelectRowAtIndexPath:cell:)]) {
-        [self.delegate render:self data:object tableView:tableView didSelectRowAtIndexPath:indexPath cell:cell];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(render:object:tableView:didSelectRowAtIndexPath:cell:)]) {
+        [self.delegate render:self object:object tableView:tableView didSelectRowAtIndexPath:indexPath cell:cell];
     }
 }
 

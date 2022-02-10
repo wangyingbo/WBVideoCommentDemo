@@ -114,7 +114,7 @@
 
 #pragma mark - WBVideoTableCommentRenderDelegate
 
-- (void)render:(WBVideoTableCommentRender *)render data:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)data tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath cell:(WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *)cell {
+- (void)render:(WBVideoTableCommentRender *)render object:(WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *)object tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath cell:(WBVideoTableCommentCell<WBVideoTableCommentCellProtocol> *)cell {
     
 }
 
