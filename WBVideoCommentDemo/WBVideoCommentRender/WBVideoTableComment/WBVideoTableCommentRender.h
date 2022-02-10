@@ -21,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^RegisterCellClassBlock)(Class class, NSString *identifer);
 
 @interface WBVideoTableCommentRender : UIView<WBVideoCommentRenderProtocol>
-@property (nonatomic, copy) void(^registerTableCellClassBlock)(RegisterCellClassBlock registerCellBlock);
+/**optional*/
+@property (nonatomic, copy, nullable) void(^registerTableCellClassBlock)(RegisterCellClassBlock registerCellBlock);
 @property (nonatomic, weak) id<WBVideoTableCommentRenderDelegate> delegate;
 /**
  TableView scrolls by calculating, Default is NO;
