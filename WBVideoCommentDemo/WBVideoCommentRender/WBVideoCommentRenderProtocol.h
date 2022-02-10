@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol WBVideoCommentRenderProtocol <NSObject>
 /**scroll from first*/
 @property (nonatomic, assign) BOOL scrollFromFirstObject;
-/**the timer interval,when you want to change the timer interval, you must call -startPlay method before call the -setTimeInterval method;*/
+/**the timer interval,when you want to change the timer interval, you must call -setTimeInterval method before call the -startPlay method;*/
 @property (nonatomic, assign) NSTimeInterval timeInterval;
 /**the scroll animation duration when scroll a item*/
 @property (nonatomic, assign) NSTimeInterval scrollAnimationDuration;
