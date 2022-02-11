@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateWithDatas:(NSArray *)datas;
 - (void)startPlay;
+- (void)manualScrollToNextOnce;
 @end
 
 NS_ASSUME_NONNULL_END

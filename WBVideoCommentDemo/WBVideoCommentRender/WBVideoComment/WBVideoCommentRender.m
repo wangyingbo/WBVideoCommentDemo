@@ -79,7 +79,7 @@
     return _engine;
 }
 
-#pragma mark - public method
+#pragma mark - WBVideoCommentRenderProtocol
 
 - (void)updateWithDatas:(NSArray<WBVideoBaseCommentObject *> *)datas {
     if ([self.engine respondsToSelector:@selector(updateWithDatas:)]) {
@@ -91,6 +91,12 @@
     [self _addVisibleComments];
     [self _startTimer];
 }
+
+- (void)manualScrollToNextOnce {
+    [self _autoShowNextComment];
+}
+
+#pragma mark - WBVideoCommentRenderProtocolpublic method
 
 - (WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *)dequeueReusableCellWithIdentifier:(NSString *)identifier {
     NSArray<WBVideoBaseCommentView<WBVideoBaseCommentViewProtocol> *> *reuseArr = [self.engine.reuseViewsDict objectForKey:identifier];

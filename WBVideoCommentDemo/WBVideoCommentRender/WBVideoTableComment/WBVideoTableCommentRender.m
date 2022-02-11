@@ -132,7 +132,7 @@
     self.registerTableCellClassBlock(registerCellBlock);
 }
 
-#pragma mark - public
+#pragma mark - WBVideoCommentRenderProtocol
 - (void)updateWithDatas:(NSArray<WBVideoTableCommentObject *> *)datas {
     if ([self.engine respondsToSelector:@selector(updateAllObjects:)]) {
         [self.engine updateAllObjects:datas];
@@ -142,6 +142,10 @@
 - (void)startPlay {
     [self _startInitialVisibleComments];
     [self _startTimer];
+}
+
+- (void)manualScrollToNextOnce {
+    [self _autoShowNextComment];
 }
 
 #pragma mark - aoto play
