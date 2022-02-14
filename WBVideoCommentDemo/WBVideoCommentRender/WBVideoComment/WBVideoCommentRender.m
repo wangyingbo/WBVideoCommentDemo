@@ -81,6 +81,11 @@
 
 #pragma mark - WBVideoCommentRenderProtocol
 
+- (void)reset {
+    [self _stopTimer];
+    [self updateWithDatas:[NSArray array]];
+}
+
 - (void)updateWithDatas:(NSArray<WBVideoBaseCommentObject *> *)datas {
     if ([self.engine respondsToSelector:@selector(updateWithDatas:)]) {
         [self.engine updateWithDatas:datas];

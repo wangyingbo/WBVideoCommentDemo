@@ -133,6 +133,14 @@
 }
 
 #pragma mark - WBVideoCommentRenderProtocol
+
+- (void)reset {
+    [self _stopTimer];
+    [self updateWithDatas:[NSArray array]];
+    self.dataArray = [NSArray array];
+    [self.tableView reloadData];
+}
+
 - (void)updateWithDatas:(NSArray<WBVideoTableCommentObject *> *)datas {
     if ([self.engine respondsToSelector:@selector(updateAllObjects:)]) {
         [self.engine updateAllObjects:datas];
@@ -155,6 +163,9 @@
     NSArray<WBVideoTableCommentObject<WBVideoTableCommentObjectProtocol> *> *initialObjects = nil;
     if ([self.engine respondsToSelector:@selector(startPlayInitialObjects)]) {
         initialObjects = [self.engine startPlayInitialObjects];
+    }
+    if ([self.engine respondsToSelector:@selector(setScrollFromFirstObject:)] && [self respondsToSelector:@selector(scrollFromFirstObject)]) {
+        self.engine.scrollFromFirstObject = self.scrollFromFirstObject;
     }
     self.dataArray = initialObjects;
     [self.tableView reloadData];

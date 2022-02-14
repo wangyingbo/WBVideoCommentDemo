@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSTimeInterval scrollAnimationDuration;
 
 
+- (void)reset;
 - (void)updateWithDatas:(NSArray *)datas;
 - (void)startPlay;
 - (void)manualScrollToNextOnce;
