@@ -22,6 +22,7 @@
 @synthesize scrollFromFirstObject = _scrollFromFirstObject;
 @synthesize timeInterval = _timeInterval;
 @synthesize scrollAnimationDuration = _scrollAnimationDuration;
+@synthesize preventAutoScroll = _preventAutoScroll;
 
 #pragma mark - override
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -149,7 +150,16 @@
 
 - (void)startPlay {
     [self _startInitialVisibleComments];
-    [self _startTimer];
+    
+    BOOL preventAutoScroll = NO;
+    if ([self respondsToSelector:@selector(preventAutoScroll)]) {
+        preventAutoScroll = self.preventAutoScroll;
+    }
+    if (preventAutoScroll) {
+        [self _stopTimer];
+    }else {
+        [self _startTimer];
+    }
 }
 
 - (void)manualScrollToNextOnce {

@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSTimeInterval timeInterval;
 /**the scroll animation duration when scroll a item*/
 @property (nonatomic, assign) NSTimeInterval scrollAnimationDuration;
+/**prevent auto scroll to next*/
+@property (nonatomic, assign) BOOL preventAutoScroll;
 
 
 - (void)reset;
